@@ -35,7 +35,11 @@
       --radius-lg: 16px;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      min-width: 0;
+      overflow-x: hidden;
+    }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -44,6 +48,8 @@
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      min-width: 0;
+      overflow-x: hidden;
     }
 
     /* NAV */
@@ -572,8 +578,9 @@
       padding: 6rem 2rem 5rem;
       display: grid;
       place-items: center;
+      justify-items: center;
       text-align: center;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .hero::before {
@@ -1320,24 +1327,130 @@
     }
 
     @media (max-width: 600px) {
-      nav { height: 62px; }
+      nav {
+        height: 62px;
+        padding: 0 1rem;
+      }
       .nav-badge { display: none; }
-      .nav-cta { padding: 9px 11px; font-size: 12px; }
-      .hero { padding-top: 3.5rem; gap: 2rem; }
-      .hero-brand.hero-brand-large { gap: 1rem; }
-      .hero-brand-large .hero-brand-name { font-size: 3.25rem; }
-      .hero-brand-large .hero-brand-mark { width: 62px; height: 62px; }
-      .hero-brand-subline { font-size: 9px; letter-spacing: 0.05em; }
+      .nav-cta {
+        padding: 9px 11px;
+        font-size: 12px;
+      }
+      .hero {
+        min-height: auto;
+        padding: 2.2rem 1rem 1rem;
+        place-items: start center;
+        gap: 1.25rem;
+      }
+      .hero::before,
+      .hero::after,
+      .hero-scroll {
+        display: none;
+      }
+      .hero-copy,
+      .hero-visual,
+      .product-intro-copy,
+      .video-wrapper,
+      .terminal-card,
+      .cta-wrap,
+      .contact-form,
+      .vs-card,
+      .problem-card,
+      .usecase {
+        width: 100%;
+        max-width: 100%;
+      }
+      .hero-brand.hero-brand-large {
+        gap: 0.9rem;
+        width: 100%;
+        padding: 0 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .hero-brand-large::after {
+        display: none;
+      }
+      .hero-brand::before {
+        display: none;
+      }
+      .hero-brand-large .hero-brand-name {
+        font-size: clamp(1.8rem, 7vw, 2.6rem);
+      }
+      .hero-brand-large .hero-brand-mark {
+        width: 52px;
+        height: 52px;
+      }
+      .hero-brand-subline {
+        font-size: 10px;
+        gap: 6px;
+      }
       .hero-brand-subline::before,
-      .hero-brand-subline::after { width: 28px; }
-      .product-intro { padding-left: 1.25rem; padding-right: 1.25rem; }
-      h1 { font-size: 2.35rem; }
+      .hero-brand-subline::after { width: 22px; }
+      .product-intro {
+        padding: 2rem 1rem 2.5rem;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .hero-actions {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        width: 100%;
+        max-width: 100%;
+      }
+      .hero-actions .btn-secondary {
+        margin-top: 0.85rem;
+      }
+      .product-intro-copy h1 {
+        max-width: 100%;
+        font-size: clamp(1.9rem, 7vw, 2.6rem);
+      }
+      .product-intro-copy .hero-sub {
+        margin-bottom: 1.2rem;
+      }
+      .hero-tag,
+      .section-label,
+      .hero-sub,
+      h2,
+      .section-sub {
+        max-width: 100%;
+      }
       .signal-row { grid-template-columns: 1fr; }
-      .signal-arrow { width: 2px; height: 28px; justify-self: center; }
-      .signal-arrow::after { right: 50%; top: auto; bottom: -1px; transform: translateX(50%) rotate(135deg); }
+      .signal-arrow {
+        width: 2px;
+        height: 24px;
+        justify-self: center;
+      }
+      .signal-arrow::after {
+        right: 50%;
+        top: auto;
+        bottom: -1px;
+        transform: translateX(50%) rotate(135deg);
+      }
       .stat-strip { grid-template-columns: 1fr; }
       .flow { padding: 1rem; }
       .flow-code { display: grid; }
+      .usecase { flex-wrap: wrap; gap: 1rem; }
+      .usecase-icon { flex-shrink: 0; }
+      .cta-wrap {
+        padding: 2.5rem 1rem 3rem;
+      }
+      .video-wrapper {
+        margin: 0 auto;
+      }
+      .video-wrapper video { width: 100%; }
+      section,
+      nav,
+      footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      section::before {
+        left: 1rem;
+        width: min(180px, 28vw);
+      }
     }
 
     .hero h1 {
