@@ -6,20 +6,6 @@
   <title>R.U.C. — Rocket Unified Comunication</title>
   <meta name="description" content="Un software che traduce i comandi del tuo PLC verso robot e dispositivi di brand diversi. Automazione industriale senza barriere di protocollo." />
 
-  <!-- ================================================
-    GOOGLE ANALYTICS 4
-    1. Vai su analytics.google.com
-    2. Crea un account e una proprietà con l'URL del tuo sito
-    3. Sostituisci G-XXXXXXXXXX con il tuo Measurement ID
-  ================================================ -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -1723,20 +1709,13 @@
     const form = document.getElementById('contactForm');
     const data = new FormData(form);
 
-    // Traccia evento su Google Analytics
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'form_submit', {
-        event_category: 'engagement',
-        event_label: 'contatti_ruc'
-      });
-    }
-
     fetch(form.action, {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: data
     })
     .then(() => {
+      trackEvent('form-contatti-submit', 'Form contatti inviato');
       form.style.display = 'none';
       document.getElementById('thanks').style.display = 'block';
     })
@@ -1752,16 +1731,26 @@
     video.style.display = 'block';
     placeholder.style.display = 'none';
     video.play().catch(() => {});
+    trackEvent('video-demo-play', 'Video demo avviato');
+  }
 
-    // Traccia evento su Google Analytics
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'video_play', {
-        event_category: 'engagement',
-        event_label: 'demo_ruc'
+  function trackEvent(path, title) {
+    if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+      window.goatcounter.count({
+        path,
+        title,
+        event: true
       });
     }
   }
+
+  document.getElementById('demoVideo').addEventListener('ended', () => {
+    trackEvent('video-demo-complete', 'Video demo visto fino alla fine');
+  }, { once: true });
 </script>
+
+<script data-goatcounter="https://rocketunifiedcomunication.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
 
 </body>
 </html>
