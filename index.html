@@ -365,40 +365,155 @@
     .honest-note p { font-size: 13px; color: var(--text-2); line-height: 1.7; }
     .honest-note strong { color: var(--text); font-weight: 500; }
 
-    /* VIDEO */
+    /* VIDEO / SLIDESHOW */
     .video-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 16/9;
       background: var(--bg-2);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
+      padding: 1rem;
     }
-    /* Video locale MP4 */
-    .video-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 12px; cursor: pointer;
+    .slide-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 320px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
-    .play-btn {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: var(--blue);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .play-btn svg { width: 22px; height: 22px; fill: white; margin-left: 3px; }
-    .video-placeholder p { font-size: 14px; color: var(--text-3); }
-    .video-wrapper video {
+    .slide-frame img {
       width: 100%;
       height: 100%;
-      border: none;
-      display: none;
-    }
-    .video-wrapper video {
+      display: block;
       object-fit: cover;
-      background: #000;
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+    .slide-frame.blur img {
+      filter: blur(10px) brightness(0.65);
+      transform: scale(1.05);
+    }
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.32);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.25s ease;
+    }
+    .slide-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .slide-overlay button {
+      pointer-events: auto;
+      min-width: 220px;
+    }
+    .slide-controls-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: stretch;
+      background: linear-gradient(180deg, transparent, rgba(7, 15, 32, 0.92));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .slide-enabled .slide-controls-bottom {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .slide-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .slide-buttons button {
+      flex: 1 1 140px;
+      min-width: 140px;
+      border: none;
+      border-radius: 999px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      padding: 0.95rem 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      box-shadow: 0 12px 30px rgba(0, 75, 240, 0.16);
+    }
+    .slide-buttons button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+    .slide-buttons button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: var(--border-2);
+      box-shadow: none;
+    }
+    .slide-progress {
+      height: 8px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+    }
+    .slide-progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), rgba(0, 142, 255, 0.75));
+      transition: width 0.3s ease;
+    }
+    .slide-controls button {
+      flex: 1 1 160px;
+      min-width: 140px;
+      border: none;
+      border-radius: 999px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      padding: 1rem 1.3rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 30px rgba(0, 75, 240, 0.16);
+    }
+    .slide-controls button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+    .slide-controls button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: var(--border-2);
+      box-shadow: none;
+    }
+    .slide-progress {
+      height: 10px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 0.75rem;
+    }
+    .slide-progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), rgba(0, 142, 255, 0.75));
+      transition: width 0.3s ease;
     }
 
     /* CTA / FORM */
@@ -1248,35 +1363,6 @@
       border-color: rgba(25,103,255,0.2);
     }
 
-    .video-wrapper {
-      background:
-        linear-gradient(135deg, rgba(7,17,31,0.9), rgba(10,46,143,0.82)),
-        var(--bg-2);
-      box-shadow: var(--shadow-md);
-    }
-
-    .video-wrapper::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-      background-size: 36px 36px;
-      pointer-events: none;
-    }
-
-    .play-btn {
-      width: 66px;
-      height: 66px;
-      background: linear-gradient(135deg, var(--blue), var(--blue-mid));
-      box-shadow: 0 18px 48px rgba(19,201,215,0.28);
-      transition: transform 0.2s ease;
-    }
-
-    .video-placeholder:hover .play-btn { transform: scale(1.06); }
-    .video-placeholder p { color: rgba(255,255,255,0.72); }
-
     .cta-wrap {
       max-width: 880px;
       text-align: center;
@@ -1312,6 +1398,76 @@
     .reveal.visible {
       opacity: 1;
       transform: none;
+    }
+
+    .slide-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.95rem 1rem;
+      background: rgba(10, 20, 40, 0.95);
+      color: var(--text-2);
+      border-radius: 20px;
+    }
+
+    .slide-caption strong {
+      color: var(--text);
+    }
+
+    .slide-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .slide-controls button {
+      flex: 1 1 160px;
+      min-width: 140px;
+      border: none;
+      border-radius: 999px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      padding: 1rem 1.3rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 30px rgba(0, 75, 240, 0.16);
+    }
+
+    .slide-controls button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .slide-controls button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: var(--border-2);
+      box-shadow: none;
+    }
+
+    .slide-progress {
+      height: 10px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 0.75rem;
+    }
+
+    .slide-progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), rgba(0, 142, 255, 0.75));
+      transition: width 0.3s ease;
+    }
+
+    .slide-note {
+      color: var(--text-3);
+      font-size: 13px;
+      text-align: center;
     }
 
     @media (max-width: 920px) {
@@ -1723,22 +1879,25 @@
   </div>
 </section>
 
-<!-- DEMO VIDEO -->
+<!-- DEMO SLIDESHOW -->
 <section id="demo">
   <div class="section-label">Demo</div>
   <h2>Guarda come funziona</h2>
   <p class="section-sub">Una demo che mostra come il programma R.U.C. coordina dispositivi di brand diversi</p>
-  <div class="video-wrapper">
-    <div class="video-placeholder" id="videoPlaceholder" onclick="loadVideo()">
-      <div class="play-btn">
-        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+  <div class="video-wrapper slide-disabled" id="demoWrapper">
+    <div class="slide-frame blur" id="slideFrame">
+      <img id="demoSlideImage" src="Immagini/1.png" alt="Anteprima slide 1" />
+      <div class="slide-overlay" id="slideOverlay">
+        <button type="button" id="startSlideBtn" class="btn-secondary">Avvia presentazione</button>
       </div>
-      <p>Video demo - clicca per guardare</p>
+      <div class="slide-controls-bottom" id="slideControlsBottom">
+        <div class="slide-buttons">
+          <button type="button" id="prevSlideBtn" disabled>Indietro</button>
+          <button type="button" id="nextSlideBtn" disabled>Avanti</button>
+        </div>
+        <div class="slide-progress"><span id="slideProgress"></span></div>
+      </div>
     </div>
-    <video id="demoVideo" controls preload="metadata" playsinline>
-      <source src="Rocketvideo.mp4" type="video/mp4">
-      Il tuo browser non supporta il video.
-    </video>
   </div>
 </section>
 
@@ -1844,32 +2003,174 @@
     });
   }
 
-  function loadVideo() {
-    const video = document.getElementById('demoVideo');
-    const placeholder = document.getElementById('videoPlaceholder');
-    video.style.display = 'block';
-    placeholder.style.display = 'none';
-    video.play().catch(() => {});
-    trackEvent('video-demo-play', 'Video demo avviato');
+  const demoSlides = [
+    'Immagini/1.png',
+    'Immagini/2.png',
+    'Immagini/3.png',
+    'Immagini/4.png',
+    'Immagini/5.png',
+    'Immagini/6.png'
+  ];
+  let currentSlideIndex = 0;
+  let slideStartTime = Date.now();
+  let slideEnabled = false;
+  let slideViewed = demoSlides.map(() => false);
+  let slideViewSent = demoSlides.map(() => false);
+  let slideTimerId = null;
+  let maxSlideSeen = 0;
+  const MIN_SLIDE_DURATION = 1000;
+
+  function initDemoSlides() {
+    updateSlide();
+
+    document.getElementById('prevSlideBtn').addEventListener('click', () => changeSlide(-1));
+    document.getElementById('nextSlideBtn').addEventListener('click', () => changeSlide(1));
+    document.getElementById('startSlideBtn').addEventListener('click', enableSlides);
   }
 
-  function trackEvent(path, title) {
-    if (window.goatcounter && typeof window.goatcounter.count === 'function') {
-      window.goatcounter.count({
-        path,
-        title,
-        event: true
-      });
+  function updateSlide() {
+    const image = document.getElementById('demoSlideImage');
+    const progress = document.getElementById('slideProgress');
+    const prevButton = document.getElementById('prevSlideBtn');
+    const nextButton = document.getElementById('nextSlideBtn');
+    const now = Date.now();
+
+    image.src = demoSlides[currentSlideIndex];
+    image.alt = `Anteprima slide ${currentSlideIndex + 1}`;
+    progress.style.width = `${((currentSlideIndex + 1) / demoSlides.length) * 100}%`;
+    prevButton.disabled = currentSlideIndex === 0 || !slideEnabled;
+
+    if (currentSlideIndex === demoSlides.length - 1) {
+      if (!slideEnabled || !slideViewed[currentSlideIndex]) {
+        const remaining = Math.max(0, MIN_SLIDE_DURATION - (now - slideStartTime));
+        const seconds = Math.ceil(remaining / 1000);
+        nextButton.textContent = `Riavvia (${seconds}s)`;
+        nextButton.disabled = true;
+        nextButton.style.opacity = 0.65;
+        scheduleSlideUnlock();
+      } else {
+        nextButton.textContent = 'Riavvia';
+        nextButton.disabled = !slideEnabled;
+        nextButton.style.opacity = 1;
+      }
+    } else if (!slideEnabled || !slideViewed[currentSlideIndex]) {
+      const remaining = Math.max(0, MIN_SLIDE_DURATION - (now - slideStartTime));
+      const seconds = Math.ceil(remaining / 1000);
+      nextButton.textContent = `Avanti (${seconds}s)`;
+      nextButton.disabled = true;
+      nextButton.style.opacity = 0.65;
+      scheduleSlideUnlock();
+    } else {
+      nextButton.textContent = 'Avanti';
+      nextButton.disabled = !slideEnabled;
+      nextButton.style.opacity = 1;
+    }
+
+    slideStartTime = now;
+    if (slideEnabled && !slideViewSent[currentSlideIndex]) {
+      trackEvent(
+        `/demo/slide-view/${currentSlideIndex + 1}`,
+        `Visualizzata slide ${currentSlideIndex + 1}`
+      );
+      slideViewSent[currentSlideIndex] = true;
     }
   }
 
-  document.getElementById('demoVideo').addEventListener('ended', () => {
-    trackEvent('video-demo-complete', 'Video demo visto fino alla fine');
-  }, { once: true });
+  function changeSlide(delta) {
+    if (!slideEnabled) return;
+    const now = Date.now();
+
+    const previousIndex = currentSlideIndex;
+    const elapsed = (now - slideStartTime) / 1000;
+
+    trackEvent(
+      `/demo/slide-time/${previousIndex + 1}`,
+      `Tempo visualizzazione slide ${previousIndex + 1}: ${elapsed.toFixed(1)}s`
+    );
+
+    if (previousIndex === demoSlides.length - 1 && delta > 0) {
+      clearSlideTimer();
+      currentSlideIndex = 0;
+      updateSlide();
+      return;
+    }
+
+    if (delta > 0 && previousIndex < demoSlides.length - 1) {
+      if (!slideViewed[previousIndex]) return;
+      trackEvent(
+        `/demo/slide-skip/${previousIndex + 1}`,
+        `Skip slide ${previousIndex + 1}`
+      );
+    }
+
+    clearSlideTimer();
+    currentSlideIndex = Math.min(
+      Math.max(0, currentSlideIndex + delta),
+      demoSlides.length - 1
+    );
+    updateSlide();
+  }
+
+  function enableSlides() {
+    slideEnabled = true;
+    document.getElementById('demoWrapper').classList.remove('slide-disabled');
+    document.getElementById('demoWrapper').classList.add('slide-enabled');
+    document.getElementById('slideFrame').classList.remove('blur');
+    document.getElementById('slideOverlay').classList.add('hidden');
+    trackEvent('/demo/start', 'Avvia presentazione cliccato');
+    updateSlide();
+  }
+
+  function scheduleSlideUnlock() {
+    clearSlideTimer();
+    if (slideViewed[currentSlideIndex] || !slideEnabled) return;
+    slideTimerId = window.setTimeout(() => {
+      slideViewed[currentSlideIndex] = true;
+      const slideNumber = currentSlideIndex + 1;
+      if (slideNumber > maxSlideSeen) {
+        maxSlideSeen = slideNumber;
+        trackEvent(
+          `/demo/slides-total/${slideNumber}`,
+          `Utenti che hanno visto ${slideNumber} immagini`
+        );
+      }
+      updateSlide();
+    }, MIN_SLIDE_DURATION);
+  }
+
+  function clearSlideTimer() {
+    if (slideTimerId !== null) {
+      clearTimeout(slideTimerId);
+      slideTimerId = null;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initDemoSlides);
+
+  function trackEvent(path, title) {
+    if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+      window.goatcounter.count({ path, title, event: true });
+    }
+  }
+
+  function sendCurrentSlideTime() {
+    const elapsed = (Date.now() - slideStartTime) / 1000;
+    trackEvent(
+      `/demo/slide-time/${currentSlideIndex + 1}`,
+      `Tempo visualizzazione slide ${currentSlideIndex + 1}: ${elapsed.toFixed(1)}s`
+    );
+  }
+
+  window.addEventListener('beforeunload', sendCurrentSlideTime);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      sendCurrentSlideTime();
+    }
+  });
 </script>
 
-<script data-goatcounter="https://rocketunifiedcommunication.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://rocketunifiedcomunication.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
 
 </body>
 </html>
