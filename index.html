@@ -2012,7 +2012,6 @@
     '6.png'
   ];
   let currentSlideIndex = 0;
-  let slideStartTime = Date.now();
   let slideEnabled = false;
   let slideViewed = demoSlides.map(() => false);
   let slideViewSent = demoSlides.map(() => false);
@@ -2078,15 +2077,8 @@
 
   function changeSlide(delta) {
     if (!slideEnabled) return;
-    const now = Date.now();
 
     const previousIndex = currentSlideIndex;
-    const elapsed = (now - slideStartTime) / 1000;
-
-    trackEvent(
-      `slide-time-${previousIndex + 1}`,
-      `Tempo visualizzazione slide ${previousIndex + 1}: ${elapsed.toFixed(1)}s`
-    );
 
     if (previousIndex === demoSlides.length - 1 && delta > 0) {
       clearSlideTimer();
@@ -2097,10 +2089,6 @@
 
     if (delta > 0 && previousIndex < demoSlides.length - 1) {
       if (!slideViewed[previousIndex]) return;
-      trackEvent(
-        `slide-skip-${previousIndex + 1}`,
-        `Skip slide ${previousIndex + 1}`
-      );
     }
 
     clearSlideTimer();
@@ -2147,38 +2135,30 @@
 
   document.addEventListener('DOMContentLoaded', initDemoSlides);
 
+  window._gcQueue = [];
+
   function trackEvent(path, title) {
     if (window.goatcounter && typeof window.goatcounter.count === 'function') {
       window.goatcounter.count({ path, title, event: true });
     } else {
-      // Coda manuale: array di oggetti
-      window._gcQueue = window._gcQueue || [];
       window._gcQueue.push({ path, title });
     }
   }
 
-  // Svuota la coda quando GoatCounter si carica
-  document.querySelector('script[data-goatcounter]').addEventListener('load', () => {
-    (window._gcQueue || []).forEach(e => {
-      window.goatcounter.count({ path: e.path, title: e.title, event: true });
-    });
-    window._gcQueue = [];
-  });
-
-  function sendCurrentSlideTime() {
-    const elapsed = (Date.now() - slideStartTime) / 1000;
-    trackEvent(
-      `slide-time-${currentSlideIndex + 1}`,
-      `Tempo visualizzazione slide ${currentSlideIndex + 1}: ${elapsed.toFixed(1)}s`
+  function flushGcQueue() {
+    if (!window.goatcounter || typeof window.goatcounter.count !== 'function') {
+      setTimeout(flushGcQueue, 100);
+      return;
+    }
+    window._gcQueue.forEach(e =>
+      window.goatcounter.count({ path: e.path, title: e.title, event: true })
     );
+    window._gcQueue = [];
   }
 
-  window.addEventListener('beforeunload', sendCurrentSlideTime);
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-      sendCurrentSlideTime();
-    }
-  });
+  flushGcQueue();
+
+
 </script>
 
 <script data-goatcounter="https://rocketunifiedcommunication.goatcounter.com/count"
