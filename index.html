@@ -440,6 +440,37 @@
       gap: 0.75rem;
       flex-wrap: wrap;
     }
+    .slide-arrow {
+      position: absolute;
+      top: 50%;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      color: var(--ink);
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transform: translateY(-50%);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 2;
+      padding: 0;
+    }
+    .slide-arrow:hover:not(:disabled) {
+      transform: translateY(-50%) scale(1.05);
+      opacity: 0.96;
+    }
+    .slide-arrow:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+    .slide-arrow-left { left: 0.75rem; }
+    .slide-arrow-right { right: 0.75rem; }
     .slide-buttons button {
       flex: 1 1 140px;
       min-width: 140px;
@@ -1597,6 +1628,50 @@
         margin: 0 auto;
       }
       .video-wrapper video { width: 100%; }
+      .slide-frame {
+        aspect-ratio: auto;
+        min-height: auto;
+        overflow: visible;
+        position: static;
+      }
+      .slide-overlay {
+        position: static !important;
+        inset: auto !important;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 1rem 0 0;
+        background: transparent;
+        pointer-events: auto;
+        opacity: 1 !important;
+      }
+      .slide-overlay.hidden {
+        display: none;
+        opacity: 0 !important;
+      }
+      .slide-overlay button {
+        width: min(100%, 280px);
+        max-width: 100%;
+      }
+      .slide-arrow {
+        display: none !important;
+      }
+      .slide-controls-bottom {
+        position: static !important;
+        background: rgba(255,255,255,0.96);
+        border-radius: 18px;
+        padding: 0.95rem 0.85rem;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+        margin-top: 0.85rem;
+      }
+      .slide-buttons {
+        gap: 0.75rem;
+      }
+      .slide-buttons button {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 0;
+      }
       section,
       nav,
       footer {
@@ -1890,6 +1965,8 @@
       <div class="slide-overlay" id="slideOverlay">
         <button type="button" id="startSlideBtn" class="btn-secondary">Avvia presentazione</button>
       </div>
+      <button type="button" id="prevArrowBtn" class="slide-arrow slide-arrow-left" aria-label="Slide precedente">‹</button>
+      <button type="button" id="nextArrowBtn" class="slide-arrow slide-arrow-right" aria-label="Slide successiva">›</button>
       <div class="slide-controls-bottom" id="slideControlsBottom">
         <div class="slide-buttons">
           <button type="button" id="prevSlideBtn" disabled>Indietro</button>
@@ -2020,12 +2097,44 @@
   let maxSlideSeen = 0;
   const MIN_SLIDE_DURATION = 1000;
 
+  let pointerStartX = null;
+  let pointerStartY = null;
+
   function initDemoSlides() {
     updateSlide();
 
     document.getElementById('prevSlideBtn').addEventListener('click', () => changeSlide(-1));
     document.getElementById('nextSlideBtn').addEventListener('click', () => changeSlide(1));
     document.getElementById('startSlideBtn').addEventListener('click', enableSlides);
+    document.getElementById('prevArrowBtn').addEventListener('click', () => changeSlide(-1));
+    document.getElementById('nextArrowBtn').addEventListener('click', () => changeSlide(1));
+
+    const slideFrameEl = document.getElementById('slideFrame');
+    slideFrameEl.style.touchAction = 'pan-y';
+    slideFrameEl.addEventListener('pointerdown', onSlidePointerDown);
+    slideFrameEl.addEventListener('pointerup', onSlidePointerUp);
+    slideFrameEl.addEventListener('pointercancel', resetPointerSwipe);
+    slideFrameEl.addEventListener('pointerleave', resetPointerSwipe);
+  }
+
+  function onSlidePointerDown(event) {
+    pointerStartX = event.clientX;
+    pointerStartY = event.clientY;
+  }
+
+  function onSlidePointerUp(event) {
+    if (pointerStartX === null || pointerStartY === null) return;
+    const deltaX = event.clientX - pointerStartX;
+    const deltaY = event.clientY - pointerStartY;
+    resetPointerSwipe();
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+    if (deltaX < 0) changeSlide(1);
+    else if (deltaX > 0) changeSlide(-1);
+  }
+
+  function resetPointerSwipe() {
+    pointerStartX = null;
+    pointerStartY = null;
   }
 
   function updateSlide() {
@@ -2033,6 +2142,8 @@
     const progress = document.getElementById('slideProgress');
     const prevButton = document.getElementById('prevSlideBtn');
     const nextButton = document.getElementById('nextSlideBtn');
+    const prevArrow = document.getElementById('prevArrowBtn');
+    const nextArrow = document.getElementById('nextArrowBtn');
     const now = Date.now();
 
     image.src = demoSlides[currentSlideIndex];
@@ -2067,6 +2178,9 @@
     }
 
     slideStartTime = now;
+    prevArrow.disabled = prevButton.disabled;
+    nextArrow.disabled = nextButton.disabled;
+
     if (slideEnabled && !slideViewSent[currentSlideIndex]) {
       trackEvent(
         `slide-view-${currentSlideIndex + 1}`,
