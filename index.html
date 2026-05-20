@@ -2147,23 +2147,28 @@
 
   document.addEventListener('DOMContentLoaded', initDemoSlides);
 
+  window._gcQueue = [];
+
   function trackEvent(path, title) {
     if (window.goatcounter && typeof window.goatcounter.count === 'function') {
       window.goatcounter.count({ path, title, event: true });
     } else {
-      // Coda manuale: array di oggetti
-      window._gcQueue = window._gcQueue || [];
       window._gcQueue.push({ path, title });
     }
   }
 
-  // Svuota la coda quando GoatCounter si carica
-  document.querySelector('script[data-goatcounter]').addEventListener('load', () => {
-    (window._gcQueue || []).forEach(e => {
-      window.goatcounter.count({ path: e.path, title: e.title, event: true });
-    });
+  function flushGcQueue() {
+    if (!window.goatcounter || typeof window.goatcounter.count !== 'function') {
+      setTimeout(flushGcQueue, 100);
+      return;
+    }
+    window._gcQueue.forEach(e =>
+      window.goatcounter.count({ path: e.path, title: e.title, event: true })
+    );
     window._gcQueue = [];
-  });
+  }
+
+  flushGcQueue();
 
   function sendCurrentSlideTime() {
     const elapsed = (Date.now() - slideStartTime) / 1000;
