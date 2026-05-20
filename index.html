@@ -2110,16 +2110,11 @@
     document.getElementById('nextArrowBtn').addEventListener('click', () => changeSlide(1));
 
     const slideFrameEl = document.getElementById('slideFrame');
-    slideFrameEl.style.touchAction = 'pan-y';
-    slideFrameEl.addEventListener('pointerdown', onSlidePointerDown);
-    slideFrameEl.addEventListener('pointerup', onSlidePointerUp);
-    slideFrameEl.addEventListener('pointercancel', resetPointerSwipe);
-    slideFrameEl.addEventListener('pointerleave', resetPointerSwipe);
+    slideFrameEl.style.touchAction = 'auto';
   }
 
-  function onSlidePointerDown(event) {
-    pointerStartX = event.clientX;
-    pointerStartY = event.clientY;
+  function onSlidePointerDown() {
+    // swipe navigation is disabled on mobile
   }
 
   function onSlidePointerUp(event) {
