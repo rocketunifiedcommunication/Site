@@ -2016,6 +2016,7 @@
   let slideViewed = demoSlides.map(() => false);
   let slideViewSent = demoSlides.map(() => false);
   let slideTimerId = null;
+  let slideStartTime = Date.now();
   let maxSlideSeen = 0;
   const MIN_SLIDE_DURATION = 1000;
 
