@@ -80,11 +80,7 @@
       width: 20px;
       height: 20px;
       flex: 0 0 auto;
-      stroke: var(--blue);
-      fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      object-fit: contain;
     }
     .nav-badge {
       font-size: 11px;
@@ -93,30 +89,6 @@
       padding: 3px 10px;
       border-radius: 999px;
       font-weight: 500;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
-      margin-left: auto;
-    }
-    .nav-links a {
-      color: var(--text-2);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 10px;
-      border-radius: var(--radius);
-      transition: color 0.16s ease, background 0.16s ease;
-    }
-    .nav-links a:hover {
-      color: var(--ink);
-      background: rgba(255,255,255,0.7);
-    }
-    .nav-links a.active {
-      color: var(--blue);
-      background: rgba(25,103,255,0.09);
     }
     .scroll-progress {
       position: fixed;
@@ -131,20 +103,6 @@
       transform-origin: left center;
       box-shadow: 0 0 18px rgba(25,103,255,0.36);
     }
-    .nav-cta {
-      background: var(--blue);
-      color: white;
-      border: none;
-      border-radius: var(--radius);
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: inherit;
-      transition: opacity 0.15s;
-      text-decoration: none;
-    }
-    .nav-cta:hover { opacity: 0.85; }
 
     /* HERO */
     .hero {
@@ -1049,14 +1007,6 @@
       margin: 0 auto;
     }
     footer p { font-size: 12px; color: var(--text-3); }
-    .footer-protocols {
-      flex-basis: 100%;
-      text-align: right;
-      font-size: 12px;
-      color: var(--text-3);
-    }
-
-
     /* PREMIUM RESTYLE */
     :root {
       --blue: #1967ff;
@@ -1114,19 +1064,6 @@
       padding: 4px 10px;
     }
 
-    .nav-cta {
-      background: var(--ink);
-      padding: 10px 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-      box-shadow: 0 12px 28px rgba(7,17,31,0.16);
-    }
-
-    .nav-cta:hover {
-      opacity: 1;
-      transform: translateY(-2px);
-      background: #000;
-      box-shadow: 0 16px 36px rgba(7,17,31,0.22);
-    }
 
     .hero {
       position: relative;
@@ -1394,9 +1331,9 @@
     }
 
     .product-intro-copy h1 {
-      max-width: 720px;
-      font-size: clamp(2.35rem, 4.2vw, 4.6rem);
-      line-height: 1;
+      max-width: 860px;
+      font-size: clamp(2rem, 3.25vw, 3.65rem);
+      line-height: 1.08;
       margin-bottom: 1.25rem;
     }
 
@@ -1900,8 +1837,7 @@
     .flow-node,
     .save-config,
     .btn-primary,
-    .btn-secondary,
-    .nav-cta {
+    .btn-secondary {
       min-height: 42px;
     }
 
@@ -1978,73 +1914,100 @@
       }
       .problem-grid, .vs-grid { grid-template-columns: 1fr; }
       .vs-card.featured { transform: none; }
-      .nav-links { display: none; }
     }
 
     @media (max-width: 600px) {
+      body {
+        background:
+          linear-gradient(180deg, #f8fafc 0%, #eef4f8 42%, #f9fbfd 100%);
+      }
+      body::before {
+        opacity: 0.18;
+        background-size: 34px 34px;
+      }
       nav {
         height: 56px;
-        padding: 0 1rem;
+        padding: 0 0.85rem;
+        background: rgba(248,250,252,0.9);
+      }
+      .nav-logo {
+        font-size: 13px;
       }
       .nav-badge { display: none; }
-      .nav-cta {
-        padding: 8px 12px;
-        font-size: 12px;
-      }
 
       /* HERO */
       .hero {
         min-height: auto;
-        padding: 2rem 1rem 1.5rem;
-        place-items: start center;
-        gap: 1rem;
+        padding: 2.35rem 1rem 1.25rem;
+        place-items: center;
+        gap: 0.65rem;
       }
       .hero::before,
       .hero::after,
       .hero-scroll { display: none; }
       .hero-brand.hero-brand-large {
-        gap: 0.75rem;
+        gap: 0.85rem;
         width: 100%;
-        padding: 0.75rem;
+        padding: 0;
         margin-bottom: 0;
-        border-radius: 12px;
+        align-items: center;
       }
       .hero-brand-large::after { display: none; }
       .hero-brand::before { display: none; }
       .hero-brand-large .hero-brand-name {
-        font-size: clamp(1.4rem, 5.5vw, 2rem);
+        max-width: 11ch;
+        font-size: clamp(2.05rem, 11vw, 3.15rem);
+        line-height: 0.94;
       }
       .hero-brand-large .hero-brand-mark {
-        width: 118px;
-        height: 118px;
+        width: 138px;
+        height: 138px;
+        filter: drop-shadow(0 18px 24px rgba(25,103,255,0.14)) drop-shadow(0 8px 16px rgba(184,80,18,0.1));
+      }
+      .hero-brand-large .hero-brand-kicker {
+        margin-top: 0.6rem;
+        font-size: 10px;
+        letter-spacing: 0.12em;
       }
       .hero-brand-subline {
-        font-size: 10px;
-        gap: 6px;
+        max-width: 28ch;
+        justify-content: center;
+        font-size: 9px;
+        line-height: 1.5;
+        gap: 7px;
+        opacity: 0.82;
       }
       .hero-brand-subline::before,
-      .hero-brand-subline::after { width: 18px; }
+      .hero-brand-subline::after { width: 22px; }
 
       /* SECTIONS */
-      section { padding: 2rem 1rem; }
+      section {
+        padding: 2.6rem 1rem;
+        border-top-color: rgba(11,24,43,0.06);
+      }
+      .section-label {
+        font-size: 10px;
+        margin-bottom: 0.55rem;
+      }
       h2 {
-        font-size: 1.2rem;
-        margin-bottom: 0.4rem;
+        font-size: clamp(1.42rem, 7vw, 1.9rem);
+        line-height: 1.12;
+        margin-bottom: 0.65rem;
       }
       .section-sub {
-        font-size: 13px;
-        margin-bottom: 1.25rem;
-        line-height: 1.65;
+        font-size: 14px;
+        margin-bottom: 1.5rem;
+        line-height: 1.7;
       }
       section,
       nav,
       footer {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: 1.05rem;
+        padding-right: 1.05rem;
       }
       section::before {
-        left: 1rem;
-        width: min(180px, 28vw);
+        left: 1.05rem;
+        width: 88px;
       }
       footer {
         flex-direction: column;
@@ -2055,32 +2018,37 @@
 
       /* PRODUCT INTRO */
       .product-intro {
-        padding: 2rem 1rem;
+        padding: 2.35rem 1.05rem 2.65rem;
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 1rem;
       }
       .product-intro-copy h1 {
         max-width: 100%;
-        font-size: clamp(1.5rem, 6vw, 2rem);
-        margin-bottom: 0.75rem;
+        font-size: clamp(1.28rem, 5.4vw, 1.65rem);
+        line-height: 1.18;
+        margin-bottom: 0.8rem;
       }
       .product-intro-copy .hero-sub {
         font-size: 14px;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
         line-height: 1.65;
       }
       .protocol-pills {
-        margin: -0.25rem 0 1.25rem;
+        margin: 0 0 1.25rem;
         gap: 0.4rem;
       }
       .protocol-pills span {
         min-height: 30px;
         font-size: 10px;
         padding: 0.3rem 0.55rem;
+        background: rgba(255,255,255,0.82);
       }
       .hero-visual { display: block; }
       .product-intro .hero-visual {
-        margin: 1rem 0;
+        margin: 0.75rem 0 1.15rem;
+      }
+      .terminal-card {
+        box-shadow: 0 18px 44px rgba(13,31,60,0.12);
       }
       .product-intro .terminal-top,
       .product-intro .signal-row {
@@ -2103,13 +2071,13 @@
         justify-content: stretch;
         align-items: stretch;
         flex-direction: column;
-        gap: 0.6rem;
+        gap: 0.7rem;
       }
       .hero-actions .btn-primary,
       .hero-actions .btn-secondary {
         width: 100%;
         text-align: center;
-        padding: 12px 20px;
+        padding: 13px 20px;
         font-size: 14px;
       }
 
@@ -2122,9 +2090,17 @@
         display: flex;
         align-items: flex-start;
         gap: 12px;
-        padding: 1rem;
+        padding: 1rem 0;
+        border-width: 0 0 1px;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
       }
       .problem-icon { margin-bottom: 0; flex-shrink: 0; }
+      .problem-card::before,
+      .problem-card::after {
+        display: none;
+      }
 
       /* HIGHLIGHT BOX */
       .highlight-box {
@@ -2134,10 +2110,15 @@
       .highlight-box p { font-size: 13px; }
 
       /* FLOW */
-      .flow { padding: 0; }
-      .flow-content { padding-bottom: 1.25rem; }
-      .flow-content p { font-size: 13px; }
-      .flow-content span { font-size: 12px; }
+      .flow {
+        padding: 0.25rem 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+      }
+      .flow-content { padding-bottom: 1.35rem; }
+      .flow-content p { font-size: 14px; }
+      .flow-content span { font-size: 13px; }
       .flow-code {
         display: flex;
         flex-wrap: wrap;
@@ -2150,30 +2131,55 @@
       /* CONFRONTO */
       .vs-grid {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 12px;
       }
-      .vs-card.featured { transform: none; }
+      .vs-card {
+        padding: 1rem;
+        box-shadow: 0 12px 28px rgba(13,31,60,0.08);
+      }
+      .vs-card.featured {
+        transform: none;
+        border-width: 1px;
+      }
 
       /* CASI D'USO */
       .usecase {
         flex-wrap: nowrap;
         gap: 12px;
-        padding: 1rem;
-        margin-bottom: 8px;
+        padding: 1rem 0;
+        margin-bottom: 0;
+        border-width: 0 0 1px;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
       }
       .usecase-icon { flex-shrink: 0; }
-      .usecase p { font-size: 13px; }
-      .usecase span { font-size: 12px; }
+      .usecase p { font-size: 14px; }
+      .usecase span { font-size: 13px; }
+      .usecase::before,
+      .usecase::after {
+        display: none;
+      }
       .honest-note { margin-top: 0.75rem; }
       .honest-note p { font-size: 12px; }
 
       /* DEMO */
       .ruc-demo {
-        margin: 0 auto;
-        padding: 0.65rem;
+        width: calc(100% + 0.3rem);
+        margin: 0 -0.15rem;
+        padding: 0.45rem;
+        border-radius: 8px;
+        box-shadow: 0 18px 42px rgba(0,31,90,0.16);
       }
+      .demo-shell { border-radius: 8px; }
       .demo-topbar {
         align-items: stretch;
+        gap: 0.65rem;
+        padding: 0.75rem;
+      }
+      .demo-title {
+        font-size: 0.68rem;
+        line-height: 1.45;
       }
       .demo-tabs {
         width: 100%;
@@ -2185,15 +2191,30 @@
       .demo-tab {
         flex: 0 0 auto;
         scroll-snap-align: start;
+        min-height: 36px;
+        padding: 0.45rem 0.7rem;
+        font-size: 0.72rem;
       }
       .demo-panel {
         min-height: auto;
-        padding: 0.75rem;
+        padding: 0.65rem;
       }
       .device-grid,
       .config-layout,
       .demo-form-grid {
         grid-template-columns: 1fr;
+      }
+      .device-card,
+      .device-detail,
+      .config-sidebar,
+      .config-form {
+        border-radius: 8px;
+      }
+      .device-card {
+        padding: 0.85rem;
+      }
+      .latency-chart {
+        height: 42px;
       }
       .device-bottom,
       .detail-actions {
@@ -2212,9 +2233,9 @@
       }
       .flow-canvas {
         display: grid;
-        gap: 0.75rem;
+        gap: 0.55rem;
         min-height: 0;
-        padding: 0.85rem;
+        padding: 0.65rem;
       }
       .flow-node {
         position: relative;
@@ -2223,6 +2244,7 @@
         right: auto !important;
         top: auto !important;
         width: 100%;
+        padding: 0.7rem;
         transform: none;
       }
       .flow-node:hover,
@@ -2240,8 +2262,8 @@
       }
 
       /* CTA / FORM */
-      .cta-wrap { padding: 2rem 1rem 2.5rem; }
-      .cta-wrap h2 { font-size: 1.2rem; }
+      .cta-wrap { padding: 2.5rem 1.05rem 3rem; }
+      .cta-wrap h2 { font-size: clamp(1.42rem, 7vw, 1.9rem); }
       .contact-form { padding: 1.25rem 1rem; }
       .form-row input,
       .form-row select,
@@ -2269,7 +2291,7 @@
     }
 
     .hero h1 {
-      max-width: 680px;
+      max-width: 860px;
     }
 
     @media (max-width: 920px) {
@@ -2283,21 +2305,10 @@
 
 <nav>
   <div class="nav-logo">
-    <svg class="nav-icon" viewBox="0 0 20 20" aria-hidden="true">
-      <circle cx="5" cy="10" r="3"></circle>
-      <circle cx="15" cy="10" r="3"></circle>
-      <path d="M8 10h4"></path>
-    </svg>
+    <img class="nav-icon" src="logoruc.png" alt="" aria-hidden="true">
     R.U.C.
     <span class="nav-badge">Technical preview</span>
   </div>
-  <div class="nav-links" aria-label="Sezioni principali">
-    <a href="#prodotto">Prodotto</a>
-    <a href="#come-funziona">Come funziona</a>
-    <a href="#demo">Demo</a>
-    <a href="#confronto">Confronto</a>
-  </div>
-  <a href="#contatti" class="nav-cta">Richiedi informazioni</a>
 </nav>
 
 <!-- HERO -->
@@ -2754,7 +2765,6 @@
 <footer>
   <p>R.U.C. — Rocket Unified Communication  </p>
   <p>Technical preview</p>
-  <p class="footer-protocols">S7comm · MC Protocol · Beckhoff ADS · Modbus RTU/TCP · OPC UA</p>
 </footer>
 
 <script>
@@ -2772,17 +2782,6 @@
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
   window.addEventListener('resize', updateScrollProgress);
 
-  const navSectionLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
-  const navSections = navSectionLinks
-    .map((link) => document.querySelector(link.getAttribute('href')))
-    .filter(Boolean);
-
-  function setActiveNavLink(sectionId) {
-    navSectionLinks.forEach((link) => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${sectionId}`);
-    });
-  }
-
   if ('IntersectionObserver' in window) {
     revealTargets.forEach((target) => target.classList.add('reveal'));
 
@@ -2797,15 +2796,6 @@
 
     revealTargets.forEach((target) => revealObserver.observe(target));
 
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveNavLink(entry.target.id);
-        }
-      });
-    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
-
-    navSections.forEach((section) => navObserver.observe(section));
   }
 
   function showForm() {
