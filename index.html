@@ -64,6 +64,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
       height: 56px;
     }
     .nav-logo {
@@ -75,10 +76,15 @@
       color: var(--text);
       letter-spacing: 0.02em;
     }
-    .nav-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--blue);
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      stroke: var(--blue);
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
     .nav-badge {
       font-size: 11px;
@@ -87,6 +93,43 @@
       padding: 3px 10px;
       border-radius: 999px;
       font-weight: 500;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      margin-left: auto;
+    }
+    .nav-links a {
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      transition: color 0.16s ease, background 0.16s ease;
+    }
+    .nav-links a:hover {
+      color: var(--ink);
+      background: rgba(255,255,255,0.7);
+    }
+    .nav-links a.active {
+      color: var(--blue);
+      background: rgba(25,103,255,0.09);
+    }
+    .scroll-progress {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 200;
+      width: 100%;
+      height: 3px;
+      pointer-events: none;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid), var(--green));
+      transform: scaleX(0);
+      transform-origin: left center;
+      box-shadow: 0 0 18px rgba(25,103,255,0.36);
     }
     .nav-cta {
       background: var(--blue);
@@ -186,6 +229,14 @@
       display: inline-block;
     }
     .btn-secondary:hover { background: var(--bg-2); }
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(25,103,255,0.26);
+      outline-offset: 3px;
+    }
 
     /* SECTIONS */
     section {
@@ -365,172 +416,547 @@
     .honest-note p { font-size: 13px; color: var(--text-2); line-height: 1.7; }
     .honest-note strong { color: var(--text); font-weight: 500; }
 
-    /* VIDEO / SLIDESHOW */
-    .video-wrapper {
+    /* INTERACTIVE DEMO */
+    .ruc-demo {
       position: relative;
       width: 100%;
-      background: var(--bg-2);
-      border: 1px solid var(--border);
+      display: none;
+      opacity: 0;
+      background: #07111f;
+      border: 1px solid rgba(82, 145, 255, 0.22);
       border-radius: var(--radius-lg);
       padding: 1rem;
-    }
-    .slide-frame {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      min-height: 320px;
-      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0, 31, 90, 0.2);
+      color: #eef5ff;
       overflow: hidden;
-      background: var(--bg-card);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
-    .slide-frame img {
-      width: 100%;
-      height: 100%;
+    .ruc-demo.open {
       display: block;
-      object-fit: cover;
-      transition: filter 0.3s ease, transform 0.3s ease;
+      animation: demoFadeIn 0.4s ease forwards;
     }
-    .slide-frame video {
+    @keyframes demoFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .demo-open-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0 1.25rem;
+    }
+    .demo-inline-note {
       display: none;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background: #000;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 12px;
+      margin: 0 0 0.85rem;
     }
-    .slide-frame.blur img {
-      filter: blur(10px) brightness(0.65);
-      transform: scale(1.05);
+    .demo-inline-note.visible { display: block; }
+    #demo > .section-label,
+    #demo > h2,
+    #demo > .section-sub {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .slide-overlay {
+    .ruc-demo::before {
+      content: "";
       position: absolute;
       inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.32);
+      background:
+        linear-gradient(rgba(91, 149, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(91, 149, 255, 0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
       pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.25s ease;
-    }
-    .slide-overlay.hidden {
-      display: none;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .slide-overlay button {
-      pointer-events: auto;
-      min-width: 220px;
-    }
-    .slide-controls-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 0.85rem 0 0.25rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-    .slide-enabled .slide-controls-bottom {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .slide-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-    .slide-arrow {
-      position: absolute;
-      top: 50%;
-      width: 48px;
-      height: 48px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      color: var(--ink);
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transform: translateY(-50%);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 2;
-      padding: 0;
-    }
-    .slide-arrow:hover:not(:disabled) {
-      transform: translateY(-50%) scale(1.05);
-      opacity: 0.96;
-    }
-    .slide-arrow:disabled {
-      opacity: 0.48;
-      cursor: not-allowed;
-    }
-    .slide-arrow-left { left: 0.75rem; }
-    .slide-arrow-right { right: 0.75rem; }
-    .slide-buttons button {
-      flex: 1 1 140px;
-      min-width: 140px;
-      border: none;
-      border-radius: 999px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      padding: 0.95rem 1.2rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
-      box-shadow: 0 12px 30px rgba(0, 75, 240, 0.16);
-    }
-    .slide-buttons button:hover:not(:disabled) {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-    .slide-buttons button:disabled {
       opacity: 0.55;
-      cursor: not-allowed;
-      background: var(--border-2);
-      box-shadow: none;
     }
-    .slide-progress {
-      height: 6px;
-      width: 100%;
+    .demo-shell {
+      position: relative;
+      z-index: 1;
+      background: rgba(7, 15, 28, 0.9);
+      border: 1px solid rgba(147, 184, 255, 0.16);
+      border-radius: 12px;
       overflow: hidden;
-      border-radius: 999px;
-      background: var(--border-2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
-    .slide-progress span {
+    .demo-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(147, 184, 255, 0.15);
+      background: rgba(10, 24, 45, 0.88);
+    }
+    .demo-title {
+      font-size: 0.78rem;
+      color: #9fb5d3;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    .demo-tabs {
+      display: flex;
+      gap: 0.35rem;
+      padding: 0.25rem;
+      border: 1px solid rgba(147, 184, 255, 0.16);
+      border-radius: 999px;
+      background: rgba(3, 8, 16, 0.7);
+    }
+    .demo-tab {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      background: transparent;
+      color: #9fb5d3;
+      cursor: pointer;
+      font: 600 0.78rem inherit;
+      white-space: nowrap;
+    }
+    .demo-tab.active {
+      background: #1f73ff;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(31, 115, 255, 0.32);
+    }
+    .demo-panel {
+      display: none;
+      min-height: 470px;
+      padding: 1rem;
+    }
+    .demo-panel.active { display: block; }
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+    .device-card,
+    .device-detail,
+    .config-sidebar,
+    .config-form,
+    .flow-node {
+      background: rgba(14, 29, 52, 0.9);
+      border: 1px solid rgba(147, 184, 255, 0.17);
+      border-radius: 10px;
+    }
+    .device-card {
+      padding: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+      text-align: left;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .device-card:hover,
+    .device-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(31, 115, 255, 0.72);
+      background: rgba(18, 40, 75, 0.96);
+    }
+    .device-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.8rem;
+    }
+    .device-name {
+      font-weight: 700;
+      color: #f5f9ff;
+      line-height: 1.25;
+    }
+    .running-badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 0.28rem 0.5rem;
+      background: rgba(38, 208, 124, 0.13);
+      color: #45e092;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+    .running-badge.error {
+      background: rgba(255, 82, 82, 0.14);
+      color: #ff7a7a;
+    }
+    .running-badge.testing {
+      background: rgba(255, 196, 84, 0.14);
+      color: #ffd37a;
+    }
+    .device-card.disconnected .latency-chart span {
+      animation-play-state: paused;
+      opacity: 0.28;
+    }
+    .latency-chart {
+      height: 58px;
+      display: flex;
+      align-items: end;
+      gap: 5px;
+      padding: 0.45rem;
+      border-radius: 8px;
+      background: rgba(3, 8, 16, 0.55);
+    }
+    .latency-chart span {
+      flex: 1;
+      min-width: 5px;
+      border-radius: 999px 999px 2px 2px;
+      background: linear-gradient(180deg, #4aa3ff, #1f73ff);
+      animation: latencyPulse 1.8s ease-in-out infinite;
+    }
+    .latency-chart span:nth-child(2) { animation-delay: 0.15s; }
+    .latency-chart span:nth-child(3) { animation-delay: 0.3s; }
+    .latency-chart span:nth-child(4) { animation-delay: 0.45s; }
+    .latency-chart span:nth-child(5) { animation-delay: 0.6s; }
+    .latency-chart span:nth-child(6) { animation-delay: 0.75s; }
+    @keyframes latencyPulse {
+      0%, 100% { transform: scaleY(0.72); opacity: 0.7; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+    .device-meta,
+    .demo-footer,
+    .flow-label {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+    .device-meta {
+      margin-top: 0.75rem;
+      color: #9fb5d3;
+      font-size: 0.78rem;
+      transition: opacity 0.35s ease, color 0.35s ease;
+    }
+    .device-meta.updating { opacity: 0.42; }
+    .device-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    .device-bottom .device-meta { margin-top: 0; }
+    .disconnect-btn {
+      border: 1px solid rgba(147, 184, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(3, 8, 16, 0.58);
+      color: #9fb5d3;
+      cursor: pointer;
+      font-size: 0.68rem;
+      padding: 0.34rem 0.55rem;
+      font-weight: 700;
+    }
+    .disconnect-btn:hover {
+      border-color: rgba(255, 122, 122, 0.42);
+      color: #ffb0b0;
+    }
+    .remove-device-btn {
+      border-color: rgba(255, 122, 122, 0.32);
+      color: #ffb0b0;
+    }
+    .device-detail {
+      margin-top: 0.85rem;
+      padding: 0.9rem;
+      color: #b9c9df;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .device-detail strong { color: #fff; }
+    .detail-actions {
+      display: flex;
+      align-items: end;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(147, 184, 255, 0.12);
+    }
+    .detail-actions label {
+      display: grid;
+      gap: 0.3rem;
+      color: #9fb5d3;
+      font-size: 0.72rem;
+    }
+    .detail-actions select {
+      min-width: 190px;
+      border: 1px solid rgba(147, 184, 255, 0.18);
+      border-radius: 8px;
+      background: rgba(3, 8, 16, 0.82);
+      color: #f3f8ff;
+      padding: 0.55rem 0.65rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.78rem;
+    }
+    .demo-footer {
+      margin-top: 0.9rem;
+      padding: 0.8rem 0.9rem;
+      border-radius: 8px;
+      background: rgba(3, 8, 16, 0.6);
+      color: #c9d8ec;
+      font-size: 0.82rem;
+      overflow-wrap: anywhere;
+    }
+    .config-layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 1rem;
+    }
+    .config-sidebar {
+      padding: 0.9rem;
+    }
+    .config-label {
+      color: #7f95b3;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.7rem;
+    }
+    .device-list-item {
+      padding: 0.7rem;
+      border-radius: 8px;
+      background: rgba(31, 115, 255, 0.12);
+      color: #eaf2ff;
+      font-size: 0.88rem;
+      border: 1px solid rgba(31, 115, 255, 0.22);
+    }
+    .device-list-item + .device-list-item { margin-top: 0.55rem; }
+    .device-list-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #45e092;
+      margin-right: 0.4rem;
+      box-shadow: 0 0 10px rgba(69, 224, 146, 0.62);
+      vertical-align: 1px;
+    }
+    .config-form {
+      padding: 1rem;
+      position: relative;
+    }
+    .config-form h3 {
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .demo-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .demo-field label {
       display: block;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
-      transition: width 0.3s ease;
+      margin-bottom: 0.35rem;
+      color: #9fb5d3;
+      font-size: 0.75rem;
     }
-    .slide-controls button {
-      flex: 1 1 160px;
-      min-width: 140px;
+    .demo-field input,
+    .demo-field select {
+      width: 100%;
+      border: 1px solid rgba(147, 184, 255, 0.18);
+      border-radius: 8px;
+      background: rgba(3, 8, 16, 0.82);
+      color: #f3f8ff;
+      padding: 0.7rem 0.75rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.82rem;
+    }
+    .variable-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.8rem;
+      color: #c9d8ec;
+      margin-bottom: 1rem;
+    }
+    .variable-table th,
+    .variable-table td {
+      padding: 0.7rem;
+      border-bottom: 1px solid rgba(147, 184, 255, 0.12);
+      text-align: left;
+      background: rgba(3, 8, 16, 0.45);
+    }
+    .variable-table th {
+      color: #7f95b3;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.68rem;
+    }
+    .variable-table tbody { transition: opacity 0.18s ease; }
+    .variable-table tbody.fading { opacity: 0.22; }
+    .save-config {
       border: none;
-      border-radius: 999px;
-      background: var(--blue);
+      border-radius: 8px;
+      background: #1f73ff;
       color: white;
       font-weight: 700;
-      padding: 1rem 1.3rem;
+      padding: 0.8rem 1rem;
       cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
-      box-shadow: 0 10px 30px rgba(0, 75, 240, 0.16);
+      box-shadow: 0 14px 34px rgba(31, 115, 255, 0.22);
     }
-    .slide-controls button:hover:not(:disabled) {
-      transform: translateY(-1px);
-      opacity: 0.96;
+    .demo-toast {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      border-radius: 8px;
+      background: rgba(38, 208, 124, 0.14);
+      border: 1px solid rgba(38, 208, 124, 0.28);
+      color: #7af0ad;
+      padding: 0.65rem 0.8rem;
+      font-size: 0.78rem;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
-    .slide-controls button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      background: var(--border-2);
-      box-shadow: none;
+    .demo-toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .flow-canvas {
+      position: relative;
+      min-height: 400px;
+      border-radius: 10px;
+      background: radial-gradient(circle at center, rgba(31, 115, 255, 0.13), rgba(3, 8, 16, 0.45) 48%, rgba(3, 8, 16, 0.72));
+      border: 1px solid rgba(147, 184, 255, 0.13);
+      overflow: hidden;
+    }
+    .flow-toggle {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      z-index: 3;
+      border: 1px solid rgba(147, 184, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(3, 8, 16, 0.72);
+      color: #c9d8ec;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.4rem 0.65rem;
+    }
+    .flow-node {
+      position: absolute;
+      width: 170px;
+      padding: 0.85rem;
+      color: #eef5ff;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .flow-node:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 115, 255, 0.76);
+    }
+    .flow-node.highlight {
+      border-color: rgba(87, 177, 255, 0.98);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24), 0 0 0 2px rgba(87, 177, 255, 0.32);
+    }
+    .flow-node small {
+      display: block;
+      margin-top: 0.35rem;
+      color: #9fb5d3;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.72rem;
+    }
+    .node-left { left: 5%; top: 42%; }
+    .node-core {
+      left: 50%;
+      top: 42%;
+      transform: translateX(-50%);
+      border-color: rgba(31, 115, 255, 0.65);
+      background: rgba(20, 61, 121, 0.95);
+    }
+    .node-core:hover { transform: translateX(-50%) translateY(-2px); }
+    .node-right-1 { right: 5%; top: 6%; }
+    .node-right-2 { right: 5%; top: 24%; }
+    .node-right-3 { right: 5%; top: 42%; }
+    .node-right-4 { right: 5%; top: 60%; }
+    .flow-wire {
+      position: absolute;
+      height: 2px;
+      background: rgba(95, 161, 255, 0.42);
+      transform-origin: left center;
+      transition: background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+    .flow-wire.highlight {
+      opacity: 1;
+      background: rgba(87, 177, 255, 0.95);
+      box-shadow: 0 0 18px rgba(87, 177, 255, 0.8);
+    }
+    .wire-in { left: 22%; top: 50%; width: 24%; }
+    .wire-out-1 { left: 58%; top: 38%; width: 27%; transform: rotate(-32deg); }
+    .wire-out-2 { left: 58%; top: 44%; width: 27%; transform: rotate(-16deg); }
+    .wire-out-3 { left: 58%; top: 50%; width: 27%; }
+    .wire-out-4 { left: 58%; top: 56%; width: 27%; transform: rotate(16deg); }
+    .flow-packet {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #57b1ff;
+      box-shadow: 0 0 18px rgba(87, 177, 255, 0.95);
+      animation: packetMove 2.2s linear infinite;
+    }
+    .wire-out-1 .flow-packet { animation-delay: 0.25s; }
+    .wire-out-2 .flow-packet { animation-delay: 0.65s; }
+    .wire-out-3 .flow-packet { animation-delay: 1.05s; }
+    .wire-out-4 .flow-packet { animation-delay: 1.35s; }
+    .flow-wire.highlight .flow-packet {
+      animation-duration: 0.85s;
+      background: #9dd3ff;
+    }
+    .flow-canvas.paused .flow-packet {
+      animation-play-state: paused;
+    }
+    @keyframes packetMove {
+      from { transform: translateX(0); opacity: 0; }
+      12%, 88% { opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    .flow-label {
+      position: absolute;
+      color: #9fb5d3;
+      font-size: 0.7rem;
+      background: rgba(3, 8, 16, 0.78);
+      border: 1px solid rgba(147, 184, 255, 0.13);
+      border-radius: 999px;
+      padding: 0.3rem 0.5rem;
+      white-space: nowrap;
+    }
+    .label-1 { right: 15%; top: 18%; }
+    .label-2 { right: 15%; top: 33%; }
+    .label-3 { right: 15%; top: 48%; }
+    .label-4 { right: 15%; top: 63%; }
+    .flow-status {
+      margin-top: 0.75rem;
+    }
+    .log-terminal {
+      min-height: 360px;
+      max-height: 360px;
+      overflow: hidden;
+      border: 1px solid rgba(147, 184, 255, 0.14);
+      border-radius: 10px;
+      background: rgba(3, 8, 16, 0.86);
+      padding: 0.9rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: #c9d8ec;
+    }
+    .log-line {
+      opacity: 0;
+      transform: translateY(-6px);
+      animation: logLineIn 0.22s ease forwards;
+      white-space: pre-wrap;
+    }
+    .log-line.ok { color: #7af0ad; }
+    .log-line.warn { color: #ffd37a; }
+    .log-line.info { color: #74b8ff; }
+    @keyframes logLineIn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* CTA / FORM */
@@ -617,10 +1043,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.35rem 1rem;
       max-width: 760px;
       margin: 0 auto;
     }
     footer p { font-size: 12px; color: var(--text-3); }
+    .footer-protocols {
+      flex-basis: 100%;
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-3);
+    }
 
 
     /* PREMIUM RESTYLE */
@@ -672,13 +1106,6 @@
       background: rgba(245, 247, 251, 0.78);
       backdrop-filter: blur(18px) saturate(140%);
       box-shadow: 0 10px 35px rgba(10, 20, 36, 0.04);
-    }
-
-    .nav-dot {
-      width: 10px;
-      height: 10px;
-      background: linear-gradient(135deg, var(--blue), var(--blue-mid));
-      box-shadow: 0 0 18px rgba(25,103,255,0.75);
     }
 
     .nav-badge {
@@ -827,15 +1254,23 @@
       box-shadow: 0 12px 28px rgba(25,103,255,0.26);
     }
 
+    .hero-brand-logo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
     .hero-brand-large .hero-brand-mark {
-      width: 78px;
-      height: 78px;
-      font-size: 24px;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.42), transparent 32%),
-        linear-gradient(135deg, var(--ink), var(--blue) 58%, var(--blue-mid));
-      box-shadow: 0 24px 64px rgba(25,103,255,0.34);
+      width: clamp(140px, 18vw, 220px);
+      height: clamp(140px, 18vw, 220px);
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      filter: drop-shadow(0 24px 34px rgba(25,103,255,0.18)) drop-shadow(0 10px 20px rgba(184,80,18,0.12));
       animation: mark-float 5.2s ease-in-out infinite;
+      overflow: visible;
     }
 
     .hero-brand-name {
@@ -953,7 +1388,7 @@
       padding: 4.5rem 2rem 5rem;
       border-top: 1px solid rgba(11,24,43,0.08);
       display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 3rem;
       align-items: center;
     }
@@ -967,6 +1402,27 @@
 
     .product-intro-copy .hero-sub {
       margin-bottom: 2rem;
+    }
+
+    .protocol-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: -0.65rem 0 2rem;
+    }
+
+    .protocol-pills span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      border: 1px solid rgba(25,103,255,0.16);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      color: #173158;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 0.35rem 0.7rem;
+      box-shadow: 0 10px 24px rgba(13,31,60,0.06);
     }
 
     .hero-tag::before {
@@ -1021,8 +1477,9 @@
 
     .hero-visual {
       position: relative;
-      min-height: 460px;
+      min-height: 0;
       z-index: 1;
+      margin: 1.75rem 0 1.5rem;
     }
 
     .hero-visual::before {
@@ -1067,6 +1524,23 @@
       z-index: -1;
     }
 
+    .terminal-card::after,
+    .ruc-demo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 0 36%, rgba(255,255,255,0.36) 46%, transparent 56% 100%);
+      transform: translateX(-120%);
+      animation: panel-sheen 8s ease-in-out infinite;
+    }
+
+    @keyframes panel-sheen {
+      0%, 58% { transform: translateX(-120%); opacity: 0; }
+      68% { opacity: 1; }
+      86%, 100% { transform: translateX(120%); opacity: 0; }
+    }
+
     .terminal-top {
       height: 46px;
       display: flex;
@@ -1103,7 +1577,7 @@
     }
 
     .terminal-body {
-      padding: 20px;
+      padding: 24px;
       display: grid;
       gap: 14px;
     }
@@ -1235,6 +1709,27 @@
       margin-top: 4px;
     }
 
+    .product-intro-copy {
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(360px, 1fr);
+      column-gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+
+    .product-intro-copy > .section-label,
+    .product-intro-copy > h1,
+    .product-intro-copy > .hero-sub,
+    .product-intro-copy > .protocol-pills,
+    .product-intro-copy > .hero-actions {
+      grid-column: 1;
+    }
+
+    .product-intro-copy > .hero-visual {
+      grid-column: 2;
+      grid-row: 1 / 5;
+      margin: 0;
+    }
+
     section {
       max-width: 1120px;
       padding: 5rem 2rem;
@@ -1283,6 +1778,20 @@
       pointer-events: none;
     }
 
+    .problem-card::after,
+    .vs-card::after,
+    .usecase::after {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(25,103,255,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
     .problem-card,
     .usecase {
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
@@ -1292,6 +1801,12 @@
       transform: translateY(-5px);
       border-color: rgba(25,103,255,0.18);
       box-shadow: 0 24px 56px rgba(13,31,60,0.13);
+    }
+
+    .problem-card:hover::after,
+    .vs-card:hover::after,
+    .usecase:hover::after {
+      opacity: 1;
     }
 
     section {
@@ -1379,6 +1894,17 @@
       border-color: rgba(25,103,255,0.2);
     }
 
+    .demo-tab,
+    .disconnect-btn,
+    .flow-toggle,
+    .flow-node,
+    .save-config,
+    .btn-primary,
+    .btn-secondary,
+    .nav-cta {
+      min-height: 42px;
+    }
+
     .cta-wrap {
       max-width: 880px;
       text-align: center;
@@ -1416,57 +1942,27 @@
       transform: none;
     }
 
-    .slide-caption {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.95rem 1rem;
-      background: rgba(10, 20, 40, 0.95);
-      color: var(--text-2);
-      border-radius: 20px;
+    .reveal.visible .problem-card,
+    .reveal.visible .flow-item,
+    .reveal.visible .vs-card,
+    .reveal.visible .usecase {
+      animation: content-lift 0.62s ease both;
     }
 
-    .slide-caption strong {
-      color: var(--text);
+    @keyframes content-lift {
+      from { opacity: 0.72; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
     }
 
-    .slide-controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .slide-controls button {
-      flex: 1 1 160px;
-      min-width: 140px;
-      border: none;
-      border-radius: 999px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      padding: 1rem 1.3rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
-      box-shadow: 0 10px 30px rgba(0, 75, 240, 0.16);
-    }
-
-    .slide-controls button:hover:not(:disabled) {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .slide-controls button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      background: var(--border-2);
-      box-shadow: none;
-    }
-
-    .slide-note {
-      color: var(--text-3);
-      font-size: 13px;
-      text-align: center;
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
     }
 
     @media (max-width: 920px) {
@@ -1477,8 +1973,12 @@
       h1 { max-width: 12ch; }
       .hero-visual { min-height: auto; }
       .product-intro { grid-template-columns: 1fr; }
+      .product-intro-copy {
+        display: block;
+      }
       .problem-grid, .vs-grid { grid-template-columns: 1fr; }
       .vs-card.featured { transform: none; }
+      .nav-links { display: none; }
     }
 
     @media (max-width: 600px) {
@@ -1515,9 +2015,8 @@
         font-size: clamp(1.4rem, 5.5vw, 2rem);
       }
       .hero-brand-large .hero-brand-mark {
-        width: 44px;
-        height: 44px;
-        font-size: 1.3rem;
+        width: 118px;
+        height: 118px;
       }
       .hero-brand-subline {
         font-size: 10px;
@@ -1570,7 +2069,36 @@
         margin-bottom: 1.25rem;
         line-height: 1.65;
       }
-      .hero-visual { display: none; }
+      .protocol-pills {
+        margin: -0.25rem 0 1.25rem;
+        gap: 0.4rem;
+      }
+      .protocol-pills span {
+        min-height: 30px;
+        font-size: 10px;
+        padding: 0.3rem 0.55rem;
+      }
+      .hero-visual { display: block; }
+      .product-intro .hero-visual {
+        margin: 1rem 0;
+      }
+      .product-intro .terminal-top,
+      .product-intro .signal-row {
+        display: none;
+      }
+      .product-intro .terminal-body {
+        padding: 14px;
+      }
+      .product-intro .translation-core {
+        padding: 14px;
+      }
+      .product-intro .core-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .product-intro .map-line {
+        font-size: 10px;
+      }
       .hero-actions {
         justify-content: stretch;
         align-items: stretch;
@@ -1640,45 +2168,75 @@
       .honest-note p { font-size: 12px; }
 
       /* DEMO */
-      .video-wrapper {
+      .ruc-demo {
         margin: 0 auto;
+        padding: 0.65rem;
+      }
+      .demo-topbar {
+        align-items: stretch;
+      }
+      .demo-tabs {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 10px;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+      }
+      .demo-tab {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+      }
+      .demo-panel {
+        min-height: auto;
         padding: 0.75rem;
       }
-      .slide-frame {
-        aspect-ratio: 16 / 9;
-        min-height: auto;
-        overflow: hidden;
+      .device-grid,
+      .config-layout,
+      .demo-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .device-bottom,
+      .detail-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .detail-actions select,
+      .remove-device-btn,
+      .save-config {
+        width: 100%;
+      }
+      .variable-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .flow-canvas {
+        display: grid;
+        gap: 0.75rem;
+        min-height: 0;
+        padding: 0.85rem;
+      }
+      .flow-node {
         position: relative;
-        border-radius: 10px;
+        inset: auto !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        width: 100%;
+        transform: none;
       }
-      .slide-frame video { width: 100%; height: 100%; }
-      .slide-overlay {
-        position: absolute !important;
-        inset: 0 !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1rem;
-        background: rgba(0,0,0,0.32);
-        pointer-events: none;
-        opacity: 1;
+      .flow-node:hover,
+      .node-core:hover {
+        transform: translateY(-2px);
       }
-      .slide-overlay.hidden {
-        display: none !important;
-        pointer-events: none !important;
+      .flow-wire,
+      .flow-label {
+        display: none;
       }
-      .slide-overlay button {
-        width: min(100%, 240px);
-        pointer-events: auto;
-      }
-      .slide-arrow { display: none !important; }
-      .slide-controls-bottom { padding: 0.75rem 0 0.25rem; }
-      .slide-buttons { gap: 0.5rem; }
-      .slide-buttons button {
-        flex: 1 1 auto;
-        min-width: 0;
-        font-size: 13px;
-        padding: 0.8rem 0.75rem;
+      .flow-toggle {
+        position: relative;
+        inset: auto;
+        justify-self: end;
       }
 
       /* CTA / FORM */
@@ -1691,7 +2249,7 @@
 
       /* GENERIC WIDTH FIXES */
       .hero-copy, .hero-visual, .product-intro-copy,
-      .video-wrapper, .terminal-card, .cta-wrap,
+      .ruc-demo, .terminal-card, .cta-wrap,
       .contact-form, .vs-card, .problem-card, .usecase {
         width: 100%;
         max-width: 100%;
@@ -1721,11 +2279,23 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 <nav>
   <div class="nav-logo">
-    <div class="nav-dot"></div>
+    <svg class="nav-icon" viewBox="0 0 20 20" aria-hidden="true">
+      <circle cx="5" cy="10" r="3"></circle>
+      <circle cx="15" cy="10" r="3"></circle>
+      <path d="M8 10h4"></path>
+    </svg>
     R.U.C.
     <span class="nav-badge">Technical preview</span>
+  </div>
+  <div class="nav-links" aria-label="Sezioni principali">
+    <a href="#prodotto">Prodotto</a>
+    <a href="#come-funziona">Come funziona</a>
+    <a href="#demo">Demo</a>
+    <a href="#confronto">Confronto</a>
   </div>
   <a href="#contatti" class="nav-cta">Richiedi informazioni</a>
 </nav>
@@ -1733,8 +2303,10 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-copy">
-  <div class="hero-brand hero-brand-large" aria-label="Rocket Unified Comunication">
-    <span class="hero-brand-mark">R</span>
+  <div class="hero-brand hero-brand-large" aria-label="Rocket Unified Communication">
+    <span class="hero-brand-mark">
+      <img class="hero-brand-logo" src="logoruc.png" alt="" aria-hidden="true">
+    </span>
     <span>
       <span class="hero-brand-name">Rocket Unified Communication</span>
       <span class="hero-brand-kicker">industrial protocol bridge</span>
@@ -1749,48 +2321,55 @@
 <section class="product-intro" id="prodotto">
   <div class="product-intro-copy">
     <div class="section-label">Protocol bridge per automazione</div>
-    <h1>Programmi una volta.<br>R.U.C. parla con tutti i tuoi macchinari.</h1>
-    <p class="hero-sub">Un software che riceve i comandi dal tuo PLC e li traduce nel linguaggio nativo di ogni dispositivo collegato — robot, azionamenti, sensori — indipendentemente dal brand.</p>
+    <h1>Programmi una volta. R.U.C. gestisce la traduzione verso i dispositivi configurati.</h1>
+    <p class="hero-sub">Attualmente supporta Siemens S7, Mitsubishi MELSEC, Beckhoff ADS, Modbus RTU/TCP e OPC UA.</p>
+    <div class="protocol-pills" aria-label="Protocolli supportati">
+      <span>S7comm</span>
+      <span>MC Protocol</span>
+      <span>Beckhoff ADS</span>
+      <span>Modbus RTU/TCP</span>
+      <span>OPC UA</span>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="terminal-card">
+        <div class="terminal-top">
+          <div class="window-dots"><span></span><span></span><span></span></div>
+          <div class="terminal-status">LIVE MAP</div>
+        </div>
+        <div class="terminal-body">
+          <div class="signal-row">
+            <div class="signal-node">
+              <strong>PLC Siemens</strong>
+              <span>DB12.START_CYCLE</span>
+            </div>
+            <div class="signal-arrow"></div>
+            <div class="signal-node">
+              <strong>R.U.C. Core</strong>
+              <span>normalize / route / translate</span>
+            </div>
+          </div>
+          <div class="translation-core">
+            <div class="core-head">
+              <strong>Protocol bridge attivo</strong>
+              <span class="core-chip">latenza dipendente dall'hardware</span>
+            </div>
+            <div class="map-stack">
+              <div class="map-line"><span>S7comm</span><b>→ Modbus RTU</b></div>
+              <div class="map-line"><span>S7comm</span><b>→ OPC UA</b></div>
+              <div class="map-line"><span>S7comm</span><b>→ MC Protocol</b></div>
+            </div>
+          </div>
+          <div class="stat-strip">
+            <div class="stat"><strong>1</strong><span>logica PLC</span></div>
+            <div class="stat"><strong>5</strong><span>protocolli supportati</span></div>
+            <div class="stat"><strong>0</strong><span>nessun gateway aggiuntivo per protocolli Ethernet-based</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="hero-actions">
       <a href="#demo" class="btn-primary">Guarda la demo</a>
       <a href="#contatti" class="btn-secondary">Richiedi informazioni</a>
-    </div>
-  </div>
-  <div class="hero-visual" aria-hidden="true">
-    <div class="terminal-card">
-      <div class="terminal-top">
-        <div class="window-dots"><span></span><span></span><span></span></div>
-        <div class="terminal-status">LIVE MAP</div>
-      </div>
-      <div class="terminal-body">
-        <div class="signal-row">
-          <div class="signal-node">
-            <strong>PLC Siemens</strong>
-            <span>DB12.START_CYCLE</span>
-          </div>
-          <div class="signal-arrow"></div>
-          <div class="signal-node">
-            <strong>R.U.C. Core</strong>
-            <span>normalize / route / translate</span>
-          </div>
-        </div>
-        <div class="translation-core">
-          <div class="core-head">
-            <strong>Protocol bridge attivo</strong>
-            <span class="core-chip">2.8 ms avg</span>
-          </div>
-          <div class="map-stack">
-            <div class="map-line"><span>S7comm</span><b>→ Fanuc Karel</b></div>
-            <div class="map-line"><span>S7comm</span><b>→ Modbus RTU</b></div>
-            <div class="map-line"><span>S7comm</span><b>→ ROS topic</b></div>
-          </div>
-        </div>
-        <div class="stat-strip">
-          <div class="stat"><strong>1</strong><span>logica PLC</span></div>
-          <div class="stat"><strong>3</strong><span>driver attivi</span></div>
-          <div class="stat"><strong>0</strong><span>gateway fisici</span></div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1832,7 +2411,7 @@
   <p class="section-sub">R.U.C. richiede una configurazione iniziale: colleghi i dispositivi, assegni le variabili, selezioni i driver di protocollo. Una volta configurato, gestisce la traduzione in automatico — senza toccare la logica di controllo esistente.</p>
 
   <div class="highlight-box">
-    <p>R.U.C. si installa su un PC collegato alla rete di fabbrica. Riceve gli output dal PLC, li interpreta, e invia a ciascun dispositivo il comando nel suo linguaggio nativo. Le risposte tornano al PLC riconvertite, in tempo reale.</p>
+    <p>R.U.C. si installa su un PC collegato alla rete di fabbrica. Riceve gli output dal PLC, li interpreta, e invia a ciascun dispositivo il comando nel suo linguaggio nativo. Le risposte tornano al PLC riconvertite, con latenza tipicamente sotto i 10ms su hardware adeguato.</p>
   </div>
 
   <div class="flow">
@@ -1859,11 +2438,11 @@
         <p>R.U.C. riceve l'output e traduce</p>
         <span>Interpreta il comando, identifica il dispositivo destinatario e lo converte nel protocollo corretto per quel dispositivo specifico.</span>
         <div class="flow-code">
-          <span>S7comm</span><span class="arrow">→</span><span>Fanuc Karel</span>
-          <span>&nbsp;|&nbsp;</span>
           <span>S7comm</span><span class="arrow">→</span><span>Modbus RTU</span>
           <span>&nbsp;|&nbsp;</span>
-          <span>S7comm</span><span class="arrow">→</span><span>ROS topic</span>
+          <span>S7comm</span><span class="arrow">→</span><span>Modbus TCP</span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>S7comm</span><span class="arrow">→</span><span>OPC UA</span>
         </div>
       </div>
     </div>
@@ -1890,6 +2469,10 @@
         <span>R.U.C. riceve il feedback del dispositivo, lo riconverte nel formato atteso dal PLC. Il ciclo si chiude — il PLC vede tutto come se parlasse con un unico sistema coerente.</span>
       </div>
     </div>
+  </div>
+
+  <div class="highlight-box">
+    <p>Protocolli supportati: Siemens S7 (S7comm/snap7), Mitsubishi MELSEC (MC Protocol), Beckhoff ADS, Modbus RTU/TCP, OPC UA. In valutazione: Rockwell EtherNet/IP, Omron FINS. Protocolli proprietari non documentati pubblicamente non sono previsti.</p>
   </div>
 
   <div class="warning-box">
@@ -1934,12 +2517,12 @@
       <div class="featured-badge">R.U.C.</div>
       <div class="vs-card-title">
         <svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-        Rocket Unified Comunication
+        Rocket Unified Communication
       </div>
       <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Software su PC esistente, costo contenuto</span></div>
       <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Configurabile da un programmatore PLC in autonomia</span></div>
-      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Driver preconfigurati per i protocolli comuni</span></div>
-      <div class="vs-row warn"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Technical preview — certificazioni da valutare</span></div>
+      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Driver inclusi: S7comm, MC Protocol, Beckhoff ADS, Modbus RTU/TCP, OPC UA</span></div>
+      <div class="vs-row warn"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Technical preview — Non certificato per applicazioni safety-critical (SIL/PLe)</span></div>
     </div>
   </div>
 </section>
@@ -1972,7 +2555,7 @@
     </div>
     <div>
       <p>Linee con robot multi-brand</p>
-      <span>Robot di produttori diversi che condividono lo stesso spazio fisico. R.U.C. coordina posizioni e movimenti tramite un unico punto di controllo, indipendentemente dal brand del robot.</span>
+      <span>Robot di produttori diversi che condividono lo stesso spazio fisico. R.U.C. instrada i comandi di posizione e stato verso robot di brand diversi tramite un unico punto di configurazione.</span>
     </div>
   </div>
   <div class="honest-note">
@@ -1980,29 +2563,132 @@
   </div>
 </section>
 
-<!-- DEMO SLIDESHOW -->
+<!-- DEMO INTERATTIVA -->
 <section id="demo">
   <div class="section-label">Demo</div>
   <h2>Guarda come funziona</h2>
-  <p class="section-sub">Una demo che mostra come il programma R.U.C. coordina dispositivi di brand diversi</p>
-  <div class="video-wrapper slide-disabled" id="demoWrapper">
-    <div class="slide-frame blur" id="slideFrame">
-      <img id="demoSlideImage" src="1.png" alt="Anteprima slide 1" />
-      <video id="demoSlideVideo" preload="metadata" playsinline controls controlsList="nodownload noremoteplayback"></video>
-      <div class="slide-overlay" id="slideOverlay">
-        <button type="button" id="startSlideBtn" class="btn-secondary">Avvia presentazione</button>
+  <p class="section-sub">Una simulazione dell'interfaccia R.U.C. per dashboard, configurazione e flusso protocolli.</p>
+  <div class="demo-open-wrap" id="demoOpenWrap">
+    <button type="button" class="btn-primary" id="openDemoBtn">Esplora l'interfaccia</button>
+  </div>
+  <p class="demo-inline-note" id="demoInlineNote">Nessuna installazione. Esplora l'interfaccia direttamente qui.</p>
+  <div class="ruc-demo" id="demoApp">
+    <div class="demo-shell">
+      <div class="demo-topbar">
+        <div class="demo-title">R.U.C. Control UI / simulation</div>
+        <div class="demo-tabs" role="tablist" aria-label="Demo R.U.C.">
+          <button type="button" class="demo-tab active" data-demo-tab="dashboard" role="tab" aria-selected="true">Dashboard</button>
+          <button type="button" class="demo-tab" data-demo-tab="config" role="tab" aria-selected="false">Configurazione</button>
+          <button type="button" class="demo-tab" data-demo-tab="flow" role="tab" aria-selected="false">Protocol Flow</button>
+          <button type="button" class="demo-tab" data-demo-tab="log" role="tab" aria-selected="false">Log</button>
+        </div>
       </div>
-      <div class="slide-overlay hidden" id="videoOverlay">
-        <button type="button" id="playVideoBtn" class="btn-secondary">Riproduci video</button>
+
+      <div class="demo-panel active" id="demo-dashboard" role="tabpanel">
+        <div class="device-grid" id="deviceGrid">
+          <div class="device-card active" role="button" tabindex="0" data-device="PLC Siemens S7-1500" data-protocol="S7comm" data-ip="192.168.0.12" data-vars="START_CYCLE, DB12.AXIS_X_POS" data-latency="3.0">
+            <div class="device-head"><span class="device-name">PLC Siemens S7-1500</span><span class="running-badge">RUNNING</span></div>
+            <div class="latency-chart"><span style="height:52%"></span><span style="height:70%"></span><span style="height:45%"></span><span style="height:82%"></span><span style="height:61%"></span><span style="height:74%"></span></div>
+            <div class="device-bottom"><div class="device-meta">S7comm / 3.0ms</div><button type="button" class="disconnect-btn">Disconnetti</button></div>
+          </div>
+          <div class="device-card" role="button" tabindex="0" data-device="Modbus RTU Inverter" data-protocol="Modbus RTU" data-ip="COM4 / node 3" data-vars="SPEED_SETPOINT, DRIVE_FAULT" data-latency="3.6">
+            <div class="device-head"><span class="device-name">Modbus RTU Inverter</span><span class="running-badge">RUNNING</span></div>
+            <div class="latency-chart"><span style="height:46%"></span><span style="height:68%"></span><span style="height:53%"></span><span style="height:78%"></span><span style="height:60%"></span><span style="height:73%"></span></div>
+            <div class="device-bottom"><div class="device-meta">Modbus RTU / 3.6ms</div><button type="button" class="disconnect-btn">Disconnetti</button></div>
+          </div>
+          <div class="device-card" role="button" tabindex="0" data-device="Beckhoff Servo Motor AM8000" data-protocol="Beckhoff ADS" data-ip="192.168.0.31" data-vars="MAIN.MOTOR_ENABLE, MAIN.ACTUAL_RPM" data-latency="2.9">
+            <div class="device-head"><span class="device-name">Beckhoff Servo Motor AM8000</span><span class="running-badge">RUNNING</span></div>
+            <div class="latency-chart"><span style="height:58%"></span><span style="height:44%"></span><span style="height:72%"></span><span style="height:61%"></span><span style="height:80%"></span><span style="height:64%"></span></div>
+            <div class="device-bottom"><div class="device-meta">Beckhoff ADS / 2.9ms</div><button type="button" class="disconnect-btn">Disconnetti</button></div>
+          </div>
+        </div>
+        <div class="device-detail" id="deviceDetail">
+          <div class="detail-copy">
+            <strong>PLC Siemens S7-1500</strong><br>
+            Protocollo: S7comm<br>
+            IP: 192.168.0.12<br>
+            Variabili: START_CYCLE, DB12.AXIS_X_POS
+          </div>
+          <div class="detail-actions">
+            <label>Protocollo
+              <select id="detailProtocolSelect"></select>
+            </label>
+            <button type="button" class="disconnect-btn remove-device-btn" id="removeDeviceBtn">Rimuovi dispositivo</button>
+          </div>
+        </div>
+        <div class="demo-footer" id="dashboardFooter">Active connections: <span id="activeConnectionsValue">3</span> — Avg latency: <span id="avgLatencyValue">3.2ms</span> — Uptime: <span id="uptimeValue">4h 32m</span> — 0 errors</div>
       </div>
-      <button type="button" id="prevArrowBtn" class="slide-arrow slide-arrow-left" aria-label="Slide precedente">‹</button>
-      <button type="button" id="nextArrowBtn" class="slide-arrow slide-arrow-right" aria-label="Slide successiva">›</button>
-    </div>
-    <div class="slide-controls-bottom" id="slideControlsBottom">
-      <div class="slide-progress"><span id="slideProgress"></span></div>
-      <div class="slide-buttons">
-        <button type="button" id="prevSlideBtn" disabled>Indietro</button>
-        <button type="button" id="nextSlideBtn" disabled>Avanti</button>
+
+      <div class="demo-panel" id="demo-config" role="tabpanel">
+        <div class="config-layout">
+          <aside class="config-sidebar">
+            <div class="config-label">Devices</div>
+            <div id="configDeviceList">
+              <div class="device-list-item" data-device="PLC Siemens S7-1500"><span class="device-list-dot"></span>PLC Siemens S7-1500<br><span class="device-meta">192.168.0.12 / RUNNING</span></div>
+              <div class="device-list-item" data-device="Modbus RTU Inverter"><span class="device-list-dot"></span>Modbus RTU Inverter<br><span class="device-meta">COM4 / node 3 / RUNNING</span></div>
+              <div class="device-list-item" data-device="Beckhoff Servo Motor AM8000"><span class="device-list-dot"></span>Beckhoff Servo Motor AM8000<br><span class="device-meta">192.168.0.31 / RUNNING</span></div>
+            </div>
+          </aside>
+          <div class="config-form">
+            <h3>Add New Device</h3>
+            <div class="demo-form-grid">
+              <div class="demo-field">
+                <label for="demoDeviceName">Nome</label>
+                <input id="demoDeviceName" type="text" value="Line device 02">
+              </div>
+              <div class="demo-field">
+                <label for="demoProtocol">Protocollo</label>
+                <select id="demoProtocol">
+                  <option>S7comm</option>
+                  <option>MC Protocol</option>
+                  <option>Beckhoff ADS</option>
+                  <option>Modbus RTU</option>
+                  <option>Modbus TCP</option>
+                  <option>OPC UA</option>
+                </select>
+              </div>
+              <div class="demo-field">
+                <label for="demoIp">IP</label>
+                <input id="demoIp" type="text" value="192.168.0.55">
+              </div>
+            </div>
+            <table class="variable-table">
+              <thead><tr><th>Variabile</th><th>Tipo</th><th>Mapping</th></tr></thead>
+              <tbody id="variableTableBody">
+                <tr><td>START_CYCLE</td><td>BOOL</td><td>DB12.DBX0.0</td></tr>
+                <tr><td>AXIS_X_POS</td><td>REAL</td><td>DB12.DBD4</td></tr>
+              </tbody>
+            </table>
+            <button type="button" class="save-config" id="saveConfigBtn">Salva configurazione</button>
+            <div class="demo-toast" id="demoToast">Configurazione salvata</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-panel" id="demo-flow" role="tabpanel">
+        <div class="flow-canvas">
+          <button type="button" class="flow-toggle" id="flowPauseBtn">Pausa</button>
+          <button type="button" class="flow-node node-left" data-node="PLC Siemens S7-1500">PLC Siemens S7-1500<small>S7comm</small></button>
+          <button type="button" class="flow-node node-core" data-node="R.U.C. Core">R.U.C. Core<small>normalize / route</small></button>
+          <button type="button" class="flow-node node-right-1" data-node="Mitsubishi MELSEC">Mitsubishi MELSEC<small>MC Protocol</small></button>
+          <button type="button" class="flow-node node-right-2" data-node="Beckhoff CX2040">Beckhoff CX2040<small>ADS</small></button>
+          <button type="button" class="flow-node node-right-3" data-node="Modbus RTU/TCP">Modbus RTU/TCP<small>registri 40001+</small></button>
+          <button type="button" class="flow-node node-right-4" data-node="OPC UA Server">OPC UA Server<small>NodeId ns=2</small></button>
+          <div class="flow-wire wire-in"><span class="flow-packet"></span></div>
+          <div class="flow-wire wire-out-1"><span class="flow-packet"></span></div>
+          <div class="flow-wire wire-out-2"><span class="flow-packet"></span></div>
+          <div class="flow-wire wire-out-3"><span class="flow-packet"></span></div>
+          <div class="flow-wire wire-out-4"><span class="flow-packet"></span></div>
+          <div class="flow-label label-1">MC Protocol — attivo</div>
+          <div class="flow-label label-2">Beckhoff ADS — attivo</div>
+          <div class="flow-label label-3">Modbus RTU/TCP — attivo</div>
+          <div class="flow-label label-4">OPC UA — attivo</div>
+        </div>
+        <div class="demo-footer flow-status">Protocol bridge active — 5 protocolli supportati — 0 physical gateways</div>
+      </div>
+
+      <div class="demo-panel" id="demo-log" role="tabpanel">
+        <div class="log-terminal" id="logTerminal" aria-live="polite"></div>
       </div>
     </div>
   </div>
@@ -2025,8 +2711,8 @@
     onsubmit="handleSubmit(event)"
   >
     <div class="form-row">
-      <label for="fname">Nome e cognome</label>
-      <input type="text" id="fname" name="nome" placeholder="Mario Rossi" required />
+      <label for="fname">Nome</label>
+      <input type="text" id="fname" name="nome" placeholder="Mario" required />
     </div>
     <div class="form-row">
       <label for="femail">Email</label>
@@ -2068,10 +2754,35 @@
 <footer>
   <p>R.U.C. — Rocket Unified Communication  </p>
   <p>Technical preview</p>
+  <p class="footer-protocols">S7comm · MC Protocol · Beckhoff ADS · Modbus RTU/TCP · OPC UA</p>
 </footer>
 
 <script>
-  const revealTargets = document.querySelectorAll('section, .problem-card, .flow-item, .vs-card, .usecase, .video-wrapper, .cta-wrap');
+  const revealTargets = document.querySelectorAll('section, .problem-card, .flow-item, .vs-card, .usecase, .ruc-demo, .cta-wrap');
+  const scrollProgress = document.getElementById('scrollProgress');
+
+  function updateScrollProgress() {
+    if (!scrollProgress) return;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    scrollProgress.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+  }
+
+  updateScrollProgress();
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('resize', updateScrollProgress);
+
+  const navSectionLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  const navSections = navSectionLinks
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  function setActiveNavLink(sectionId) {
+    navSectionLinks.forEach((link) => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${sectionId}`);
+    });
+  }
+
   if ('IntersectionObserver' in window) {
     revealTargets.forEach((target) => target.classList.add('reveal'));
 
@@ -2085,6 +2796,16 @@
     }, { threshold: 0.12 });
 
     revealTargets.forEach((target) => revealObserver.observe(target));
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveNavLink(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+
+    navSections.forEach((section) => navObserver.observe(section));
   }
 
   function showForm() {
@@ -2097,6 +2818,7 @@
     e.preventDefault();
     const form = document.getElementById('contactForm');
     const data = new FormData(form);
+    trackEvent('form-contatti-submit', 'Form contatti inviato');
 
     fetch(form.action, {
       method: 'POST',
@@ -2104,7 +2826,6 @@
       body: data
     })
     .then(() => {
-      trackEvent('form-contatti-submit', 'Form contatti inviato');
       form.style.display = 'none';
       document.getElementById('thanks').style.display = 'block';
     })
@@ -2114,149 +2835,456 @@
     });
   }
 
-  const demoSlides = [
-    '1.png',
-    '2.png',
-    '3.png',
-    '4.png',
-    '5.png',
-    '6.png',
-    'rocketvideo.mp4'
-  ];
-  let currentSlideIndex = 0;
-  let slideEnabled = false;
-  let slideViewSent = demoSlides.map(() => false);
-  let videoStarted = false;
-  let videoElement = null;
-  let videoOverlay = null;
-  let playVideoBtn = null;
-
-  function initDemoSlides() {
-    videoElement = document.getElementById('demoSlideVideo');
-    videoOverlay = document.getElementById('videoOverlay');
-    playVideoBtn = document.getElementById('playVideoBtn');
-
-    document.getElementById('prevSlideBtn').addEventListener('click', () => changeSlide(-1));
-    document.getElementById('nextSlideBtn').addEventListener('click', () => changeSlide(1));
-    document.getElementById('startSlideBtn').addEventListener('click', enableSlides);
-    document.getElementById('prevArrowBtn').addEventListener('click', () => changeSlide(-1));
-    document.getElementById('nextArrowBtn').addEventListener('click', () => changeSlide(1));
-
-    playVideoBtn.addEventListener('click', playDemoVideo);
-    videoElement.addEventListener('play', () => {
-      videoOverlay.classList.add('hidden');
-    });
-    videoElement.addEventListener('ended', () => {
-      videoOverlay.classList.remove('hidden');
-      handleVideoEnded();
-    });
-
-    const slideFrameEl = document.getElementById('slideFrame');
-    slideFrameEl.style.touchAction = 'auto';
-    updateSlide();
+  function slugifyEvent(value) {
+    return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
-  function updateSlide() {
-    const image = document.getElementById('demoSlideImage');
-    const progress = document.getElementById('slideProgress');
-    const prevButton = document.getElementById('prevSlideBtn');
-    const nextButton = document.getElementById('nextSlideBtn');
-    const prevArrow = document.getElementById('prevArrowBtn');
-    const nextArrow = document.getElementById('nextArrowBtn');
-    const currentSlide = demoSlides[currentSlideIndex];
-    const isVideoSlide = currentSlide.endsWith('.mp4');
+  function initInteractiveDemo() {
+    const tabs = document.querySelectorAll('[data-demo-tab]');
+    const panels = {
+      dashboard: document.getElementById('demo-dashboard'),
+      config: document.getElementById('demo-config'),
+      flow: document.getElementById('demo-flow'),
+      log: document.getElementById('demo-log')
+    };
+    const detail = document.getElementById('deviceDetail');
+    const toast = document.getElementById('demoToast');
+    const deviceGrid = document.getElementById('deviceGrid');
+    const configDeviceList = document.getElementById('configDeviceList');
+    const variableBody = document.getElementById('variableTableBody');
+    const demoApp = document.getElementById('demoApp');
+    const openDemoBtn = document.getElementById('openDemoBtn');
+    const demoOpenWrap = document.getElementById('demoOpenWrap');
+    const demoInlineNote = document.getElementById('demoInlineNote');
+    const avgLatencyValue = document.getElementById('avgLatencyValue');
+    const uptimeValue = document.getElementById('uptimeValue');
+    const flowCanvas = document.querySelector('.flow-canvas');
+    const flowPauseBtn = document.getElementById('flowPauseBtn');
+    const logTerminal = document.getElementById('logTerminal');
+    const detailProtocolSelect = document.getElementById('detailProtocolSelect');
+    const removeDeviceBtn = document.getElementById('removeDeviceBtn');
+    const activeConnectionsValue = document.getElementById('activeConnectionsValue');
+    let toastTimer = null;
+    let uptimeMinutes = 4 * 60 + 32;
+    let uptimeTimer = null;
+    let logTimer = null;
+    let logIndex = 0;
 
-    if (isVideoSlide) {
-      image.style.display = 'none';
-      videoElement.style.display = 'block';
-      if (videoElement.src !== new URL(currentSlide, location.href).href) {
-        videoElement.src = currentSlide;
-        videoElement.load();
+    const supportedProtocols = ['S7comm', 'MC Protocol', 'Beckhoff ADS', 'Modbus RTU', 'Modbus TCP', 'OPC UA'];
+    const protocolVars = {
+      'S7comm': 'START_CYCLE, DB12.AXIS_X_POS',
+      'MC Protocol': 'START_CYCLE, D120.AXIS_X_POS',
+      'Beckhoff ADS': 'MAIN.START_CYCLE, MAIN.AXIS_X_POS',
+      'Modbus RTU': 'START_CYCLE, AXIS_X_POS',
+      'Modbus TCP': 'ROBOT_READY, TARGET_SLOT',
+      'OPC UA': 'ns=2;i=1001, ns=2;i=1002'
+    };
+
+    const variableMaps = {
+      'S7comm': [
+        ['START_CYCLE', 'BOOL', 'DB12.DBX0.0'],
+        ['AXIS_X_POS', 'REAL', 'DB12.DBD4']
+      ],
+      'MC Protocol': [
+        ['START_CYCLE', 'BOOL', 'M100'],
+        ['AXIS_X_POS', 'REAL', 'D120']
+      ],
+      'Beckhoff ADS': [
+        ['START_CYCLE', 'BOOL', 'MAIN.START_CYCLE'],
+        ['AXIS_X_POS', 'REAL', 'MAIN.AXIS_X_POS']
+      ],
+      'Modbus RTU': [
+        ['START_CYCLE', 'BOOL', '40001'],
+        ['AXIS_X_POS', 'REAL', '40003']
+      ],
+      'Modbus TCP': [
+        ['START_CYCLE', 'BOOL', '40001'],
+        ['AXIS_X_POS', 'REAL', '40003']
+      ],
+      'OPC UA': [
+        ['START_CYCLE', 'BOOL', 'ns=2;i=1001'],
+        ['AXIS_X_POS', 'REAL', 'ns=2;i=1002']
+      ]
+    };
+    const logLines = [
+      '[INFO] ruc-core  sync cycle #18421 started  plc=192.168.0.12',
+      '[OK] s7comm.read  DB12.DBX0.0 START_CYCLE=1  2.7ms',
+      '[OK] route.match  START_CYCLE → COM4/node3 coil:0001',
+      '[OK] modbus-rtu.write  node=3 reg=40001 value=1  3.6ms',
+      '[OK] ads.read  MAIN.ACTUAL_RPM=1480  target=1500  2.8ms',
+      '[INFO] heartbeat  plc=online inverter=running motor=enabled',
+      '[OK] modbus-rtu.read  node=3 reg=40007 DRIVE_FAULT=0  3.4ms',
+      '[OK] ads.write  MAIN.MOTOR_ENABLE=true  ams=5.33.204.1.1  2.9ms',
+      '[WARN] modbus-rtu.retry  node=3 attempt=1 jitter=4.6ms',
+      '[OK] ruc-core  cycle closed  active=3 errors=0 avg=3.2ms'
+    ];
+
+    detailProtocolSelect.innerHTML = supportedProtocols
+      .map((protocol) => `<option>${protocol}</option>`)
+      .join('');
+    detailProtocolSelect.value = 'S7comm';
+
+    function selectCard(card) {
+      document.querySelectorAll('.device-card').forEach((item) => item.classList.remove('active'));
+      card.classList.add('active');
+      detail.querySelector('.detail-copy').innerHTML = `<strong>${card.dataset.device}</strong><br>Protocollo: ${card.dataset.protocol}<br>IP: ${card.dataset.ip}<br>Variabili: ${card.dataset.vars}`;
+      detailProtocolSelect.value = card.dataset.protocol;
+      trackEvent('demo-device-select', 'Demo device selezionato');
+    }
+
+    function randomLatency() {
+      return (2.5 + Math.random() * 1.7).toFixed(1);
+    }
+
+    function updateLatency(card) {
+      if (card.classList.contains('disconnected')) return;
+      const badge = card.querySelector('.running-badge');
+      const meta = card.querySelector('.device-meta');
+      if (!badge || !meta || badge.textContent.trim() !== 'RUNNING' || !card.dataset.latency) return;
+      meta.classList.add('updating');
+      setTimeout(() => {
+        if (!card.classList.contains('disconnected')) {
+          const value = randomLatency();
+          card.dataset.latency = value;
+          meta.textContent = `${card.dataset.protocol} / ${value}ms`;
+          card.querySelectorAll('.latency-chart span').forEach((bar) => {
+            bar.style.height = `${42 + Math.round(Math.random() * 46)}%`;
+          });
+          updateAverageLatency();
+        }
+        meta.classList.remove('updating');
+      }, 180);
+    }
+
+    function updateAverageLatency() {
+      const values = [...document.querySelectorAll('.device-card[data-latency]:not(.disconnected)')]
+        .map((card) => Number(card.dataset.latency))
+        .filter((value) => Number.isFinite(value));
+      if (!values.length) {
+        avgLatencyValue.textContent = '—';
+        activeConnectionsValue.textContent = '0';
+        return;
       }
-      videoOverlay.classList.toggle('hidden', videoStarted);
-      image.alt = 'Anteprima video';
-    } else {
-      image.style.display = 'block';
-      videoElement.style.display = 'none';
-      videoElement.pause();
-      videoElement.currentTime = 0;
-      videoStarted = false;
-      videoOverlay.classList.add('hidden');
-      image.src = currentSlide;
-      image.alt = `Anteprima slide ${currentSlideIndex + 1}`;
+      const avg = values.reduce((sum, value) => sum + value, 0) / values.length;
+      avgLatencyValue.textContent = `${avg.toFixed(1)}ms`;
+      activeConnectionsValue.textContent = values.length;
     }
 
-    progress.style.width = `${((currentSlideIndex + 1) / demoSlides.length) * 100}%`;
-    prevButton.disabled = currentSlideIndex === 0 || !slideEnabled;
-
-    if (currentSlideIndex === demoSlides.length - 1) {
-      nextButton.textContent = 'Riavvia Demo';
-      nextButton.disabled = !slideEnabled;
-      nextButton.style.opacity = 1;
-    } else {
-      nextButton.textContent = 'Avanti';
-      nextButton.disabled = !slideEnabled;
-      nextButton.style.opacity = 1;
+    function scheduleLatency(card) {
+      if (!card.dataset.latency || card.dataset.latencyTimer) return;
+      const tick = () => {
+        updateLatency(card);
+        card.dataset.latencyTimer = window.setTimeout(tick, 2000 + Math.random() * 1000);
+      };
+      card.dataset.latencyTimer = window.setTimeout(tick, 2000 + Math.random() * 1000);
     }
 
-    prevArrow.disabled = prevButton.disabled;
-    nextArrow.disabled = nextButton.disabled;
+    function disconnectCard(card) {
+      const badge = card.querySelector('.running-badge');
+      const meta = card.querySelector('.device-meta');
+      const button = card.querySelector('.disconnect-btn');
+      if (card.classList.contains('disconnected')) {
+        const value = randomLatency();
+        card.dataset.latency = value;
+        card.classList.remove('disconnected');
+        badge.classList.remove('error');
+        badge.textContent = 'RUNNING';
+        meta.textContent = `${card.dataset.protocol} / ${value}ms`;
+        button.textContent = 'Disconnetti';
+        updateAverageLatency();
+        return;
+      }
+      card.classList.add('disconnected');
+      badge.classList.add('error');
+      badge.textContent = 'ERROR';
+      meta.textContent = `${card.dataset.protocol} / —`;
+      button.textContent = 'Riconnetti';
+      updateAverageLatency();
+      trackEvent('demo-device-disconnect', 'Demo device disconnesso');
+    }
 
-    if (slideEnabled && !slideViewSent[currentSlideIndex]) {
-      trackEvent(
-        `slide-view-${currentSlideIndex + 1}`,
-        `Visualizzata slide ${currentSlideIndex + 1}`
-      );
-      slideViewSent[currentSlideIndex] = true;
+    function updateCardProtocol(card, protocol) {
+      if (!card) return;
+      const meta = card.querySelector('.device-meta');
+      const value = card.dataset.latency || randomLatency();
+      card.dataset.protocol = protocol;
+      card.dataset.vars = protocolVars[protocol] || 'START_CYCLE, AXIS_X_POS';
+      if (card.classList.contains('disconnected')) {
+        meta.textContent = `${protocol} / —`;
+      } else if (card.dataset.latency) {
+        meta.textContent = `${protocol} / ${value}ms`;
+      } else {
+        meta.textContent = `${protocol} / hw dependent`;
+      }
+      selectCard(card);
+      updateVariableTable(protocol);
+      trackEvent('demo-protocol-changed', 'Demo protocollo modificato');
+    }
+
+    function removeCard(card) {
+      if (!card) return;
+      const nextCard = card.nextElementSibling || card.previousElementSibling;
+      [...document.querySelectorAll('.device-list-item')]
+        .find((item) => item.dataset.device === card.dataset.device)
+        ?.remove();
+      card.remove();
+      if (nextCard && nextCard.classList.contains('device-card')) {
+        selectCard(nextCard);
+      } else {
+        detail.querySelector('.detail-copy').innerHTML = '<strong>Nessun dispositivo selezionato</strong><br>Aggiungi un dispositivo dalla configurazione.';
+      }
+      updateAverageLatency();
+    }
+
+    function bindDeviceCard(card) {
+      if (card.dataset.bound === 'true') return;
+      card.dataset.bound = 'true';
+      card.addEventListener('click', () => selectCard(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectCard(card);
+        }
+      });
+      const disconnectBtn = card.querySelector('.disconnect-btn');
+      if (disconnectBtn) {
+        disconnectBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          disconnectCard(card);
+        });
+      }
+      scheduleLatency(card);
+    }
+
+    function chartBars() {
+      return [52, 70, 45, 82, 61, 74]
+        .map((height) => `<span style="height:${Math.max(42, Math.min(88, height + Math.round((Math.random() - 0.5) * 18)))}%"></span>`)
+        .join('');
+    }
+
+    function addDashboardDevice(name, protocol) {
+      const value = randomLatency();
+      const card = document.createElement('div');
+      card.className = 'device-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.dataset.device = name;
+      card.dataset.protocol = protocol;
+      card.dataset.ip = document.getElementById('demoIp').value || '192.168.0.55';
+      card.dataset.vars = protocolVars[protocol] || 'START_CYCLE, AXIS_X_POS';
+      card.dataset.latency = value;
+      card.innerHTML = `
+        <div class="device-head"><span class="device-name">${name}</span><span class="running-badge">RUNNING</span></div>
+        <div class="latency-chart">${chartBars()}</div>
+        <div class="device-bottom"><div class="device-meta">${protocol} / ${value}ms</div><button type="button" class="disconnect-btn">Disconnetti</button></div>
+      `;
+      deviceGrid.appendChild(card);
+      bindDeviceCard(card);
+      updateAverageLatency();
+    }
+
+    function updateVariableTable(protocol) {
+      const rows = variableMaps[protocol] || variableMaps.S7comm;
+      variableBody.classList.add('fading');
+      setTimeout(() => {
+        variableBody.innerHTML = rows
+          .map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`)
+          .join('');
+        variableBody.classList.remove('fading');
+      }, 160);
+    }
+
+    function highlightWire(node) {
+      const allWires = document.querySelectorAll('.flow-wire');
+      const allNodes = document.querySelectorAll('.flow-node');
+      const wireMap = {
+        'PLC Siemens S7-1500': ['wire-in'],
+        'Mitsubishi MELSEC': ['wire-out-1'],
+        'Beckhoff CX2040': ['wire-out-2'],
+        'Modbus RTU/TCP': ['wire-out-3'],
+        'OPC UA Server': ['wire-out-4'],
+        'R.U.C. Core': ['wire-in', 'wire-out-1', 'wire-out-2', 'wire-out-3', 'wire-out-4']
+      };
+      allWires.forEach((wire) => wire.classList.remove('highlight'));
+      allNodes.forEach((item) => item.classList.remove('highlight'));
+      node.classList.add('highlight');
+      (wireMap[node.dataset.node] || []).forEach((className) => {
+        document.querySelector(`.${className}`)?.classList.add('highlight');
+      });
+      setTimeout(() => {
+        allWires.forEach((wire) => wire.classList.remove('highlight'));
+        node.classList.remove('highlight');
+      }, 1500);
+    }
+
+    function updateUptime() {
+      const hours = Math.floor(uptimeMinutes / 60);
+      const minutes = uptimeMinutes % 60;
+      uptimeValue.textContent = `${hours}h ${minutes}m`;
+    }
+
+    function startUptime() {
+      if (uptimeTimer) return;
+      uptimeTimer = window.setInterval(() => {
+        uptimeMinutes += 1;
+        updateUptime();
+      }, 60000);
+    }
+
+    function logType(line) {
+      if (line.startsWith('[WARN]')) return 'warn';
+      if (line.startsWith('[INFO]')) return 'info';
+      return 'ok';
+    }
+
+    function appendLogLine(line, type = logType(line)) {
+      const row = document.createElement('div');
+      row.className = `log-line ${type}`;
+      row.textContent = line;
+      logTerminal.appendChild(row);
+      while (logTerminal.children.length > 12) {
+        logTerminal.removeChild(logTerminal.firstElementChild);
+      }
+      logTerminal.scrollTop = logTerminal.scrollHeight;
+    }
+
+    function scheduleLogLine() {
+      logTimer = window.setTimeout(() => {
+        appendLogLine(logLines[logIndex % logLines.length]);
+        logIndex += 1;
+        scheduleLogLine();
+      }, 1500 + Math.random() * 500);
+    }
+
+    function startLog() {
+      if (logTimer) return;
+      if (!logTerminal.children.length) {
+        appendLogLine(logLines[logIndex % logLines.length]);
+        logIndex += 1;
+      }
+      scheduleLogLine();
+    }
+
+    openDemoBtn.addEventListener('click', () => {
+      demoOpenWrap.style.display = 'none';
+      demoInlineNote.classList.add('visible');
+      demoApp.classList.add('open');
+      startUptime();
+      trackEvent('demo-open', 'Apertura demo interattiva');
+    });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.demoTab;
+        tabs.forEach((item) => {
+          item.classList.toggle('active', item === tab);
+          item.setAttribute('aria-selected', item === tab ? 'true' : 'false');
+        });
+        Object.entries(panels).forEach(([key, panel]) => {
+          panel.classList.toggle('active', key === target);
+        });
+        if (target === 'log') {
+          startLog();
+          trackEvent('demo-tab-log', 'Demo tab: Log');
+        } else {
+          trackEvent(`demo-tab-${target}`, `Demo tab: ${tab.textContent.trim()}`);
+        }
+      });
+    });
+
+    document.querySelectorAll('.device-card').forEach(bindDeviceCard);
+
+    const protocolSelect = document.getElementById('demoProtocol');
+    protocolSelect.addEventListener('change', () => {
+      updateVariableTable(protocolSelect.value);
+      trackEvent('demo-protocol-changed', 'Demo protocollo modificato');
+    });
+
+    detailProtocolSelect.addEventListener('change', () => {
+      updateCardProtocol(document.querySelector('.device-card.active'), detailProtocolSelect.value);
+    });
+
+    removeDeviceBtn.addEventListener('click', () => {
+      removeCard(document.querySelector('.device-card.active'));
+    });
+
+    flowPauseBtn.addEventListener('click', () => {
+      const paused = flowCanvas.classList.toggle('paused');
+      flowPauseBtn.textContent = paused ? 'Riprendi' : 'Pausa';
+    });
+
+    document.getElementById('saveConfigBtn').addEventListener('click', () => {
+      toast.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+      const name = document.getElementById('demoDeviceName').value.trim() || 'Line device 02';
+      const protocol = protocolSelect.value;
+      const ip = document.getElementById('demoIp').value || '192.168.0.55';
+      const item = document.createElement('div');
+      item.className = 'device-list-item';
+      item.dataset.device = name;
+      item.innerHTML = `<span class="device-list-dot"></span>${name}<br><span class="device-meta">${ip} / RUNNING</span>`;
+      configDeviceList.appendChild(item);
+      addDashboardDevice(name, protocol);
+      trackEvent('demo-config-save', 'Salva configurazione');
+      trackEvent('demo-config-device-added', 'Demo dispositivo aggiunto');
+    });
+
+    document.querySelectorAll('.flow-node').forEach((node) => {
+      node.addEventListener('click', () => {
+        highlightWire(node);
+        trackEvent('demo-flow-node-click', 'Demo protocol flow nodo cliccato');
+      });
+    });
+
+    document.querySelectorAll('.hero-actions a').forEach((cta) => {
+      cta.addEventListener('click', () => {
+        trackEvent(`hero-cta-${slugifyEvent(cta.textContent.trim())}`, `Hero CTA: ${cta.textContent.trim()}`);
+      });
+    });
+
+    const demoSection = document.getElementById('demo');
+    if ('IntersectionObserver' in window && demoSection) {
+      let demoViewed = false;
+      const demoObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !demoViewed) {
+            demoViewed = true;
+            trackEvent('demo-section-viewport', 'Sezione demo nel viewport');
+            demoObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      demoObserver.observe(demoSection);
     }
   }
 
-  function playDemoVideo() {
-    if (!slideEnabled || currentSlideIndex !== demoSlides.length - 1) return;
-    videoStarted = true;
-    videoOverlay.classList.add('hidden');
-    videoElement.currentTime = 0;
-    videoElement.play();
-    trackEvent('slide-video-start', 'Avviato il video finale');
-  }
+  document.addEventListener('DOMContentLoaded', initInteractiveDemo);
 
-  function handleVideoEnded() {
-    trackEvent('slide-video-complete', 'Video visto fino alla fine');
-  }
-
-  function changeSlide(delta) {
-    if (!slideEnabled) return;
-
-    const previousIndex = currentSlideIndex;
-
-    if (previousIndex === demoSlides.length - 1 && delta > 0) {
-      currentSlideIndex = 0;
-      updateSlide();
-      return;
-    }
-
-    currentSlideIndex = Math.min(
-      Math.max(0, currentSlideIndex + delta),
-      demoSlides.length - 1
-    );
-    updateSlide();
-  }
-
-  function enableSlides() {
-    slideEnabled = true;
-    document.getElementById('demoWrapper').classList.remove('slide-disabled');
-    document.getElementById('demoWrapper').classList.add('slide-enabled');
-    document.getElementById('slideFrame').classList.remove('blur');
-    document.getElementById('slideOverlay').classList.add('hidden');
-    trackEvent('slide-start', 'Avvia presentazione cliccato');
-    updateSlide();
-  }
-
-  document.addEventListener('DOMContentLoaded', initDemoSlides);
-
+  const GC_EVENT_STORAGE_KEY = 'ruc-goatcounter-events-v1';
   window._gcQueue = [];
 
+  function getTrackedEvents() {
+    try {
+      return new Set(JSON.parse(localStorage.getItem(GC_EVENT_STORAGE_KEY) || '[]'));
+    } catch (_) {
+      return new Set();
+    }
+  }
+
+  const trackedGcEvents = getTrackedEvents();
+
+  function rememberTrackedEvent(path) {
+    trackedGcEvents.add(path);
+    try {
+      localStorage.setItem(GC_EVENT_STORAGE_KEY, JSON.stringify([...trackedGcEvents]));
+    } catch (_) {}
+  }
+
   function trackEvent(path, title) {
+    if (trackedGcEvents.has(path)) return;
+    rememberTrackedEvent(path);
+
     if (window.goatcounter && typeof window.goatcounter.count === 'function') {
       window.goatcounter.count({ path, title, event: true });
     } else {
