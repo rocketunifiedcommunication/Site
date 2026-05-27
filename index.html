@@ -984,6 +984,7 @@
       background: none;
       color: var(--text-3);
       font: inherit;
+      font-size: 12px;
       text-decoration: underline;
       text-underline-offset: 3px;
       cursor: pointer;
@@ -2819,7 +2820,7 @@
       <textarea id="frequests" name="richieste" placeholder="Segnala esigenze specifiche o aspetti che vuoi approfondire"></textarea>
     </div>
     <button type="submit" class="form-submit">Invia</button>
-    <p class="form-note">Nessuna vendita, nessuno spam. I dati resteranno riservati e saranno usati solo per gestire la richiesta.<br><button type="button" class="privacy-link" onclick="openPrivacy()">Informativa privacy</button></p>
+    <p class="form-note">Nessuna vendita, nessuno spam. I dati resteranno riservati e saranno usati solo per gestire la richiesta.</p>
   </form>
 
   <div class="thanks" id="thanks">
@@ -2832,8 +2833,8 @@
 </div>
 
 <footer>
-  <p>R.U.C. — Rocket Unified Communication  </p>
-  <p>Technical preview</p>
+  <p>R.U.C. — Rocket Unified Communication - Technical preview</p>
+  <button type="button" class="privacy-link" onclick="openPrivacy()">Informativa privacy</button>
 </footer>
 
 <div class="privacy-modal" id="privacyModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
