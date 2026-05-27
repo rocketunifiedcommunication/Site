@@ -90,6 +90,20 @@
       border-radius: 999px;
       font-weight: 500;
     }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .language-select {
+      border: 1px solid var(--border-2);
+      border-radius: 999px;
+      background: var(--bg-card);
+      color: var(--text);
+      padding: 0.42rem 0.75rem;
+      font: 500 12px inherit;
+      cursor: pointer;
+    }
     .scroll-progress {
       position: fixed;
       left: 0;
@@ -1975,6 +1989,224 @@
       to { opacity: 1; transform: none; }
     }
 
+    /* SURVEY SECTION */
+    .survey-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .survey-intro-box {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .survey-intro-box p {
+      font-size: 14px;
+      color: var(--blue);
+      line-height: 1.75;
+    }
+    .survey-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .survey-q {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    #surveyForm.survey-ready .survey-q {
+      display: none;
+    }
+    #surveyForm.survey-ready .survey-q.active {
+      display: block;
+      animation: surveyStepIn 0.24s ease both;
+    }
+    @keyframes surveyStepIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .survey-q-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 0.5rem;
+    }
+    .survey-q-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 1.1rem;
+      line-height: 1.4;
+    }
+    .survey-q-note {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-bottom: 1.1rem;
+      font-weight: 300;
+    }
+    .survey-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .survey-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      background: var(--bg);
+      position: relative;
+    }
+    .survey-option:hover {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .survey-option input[type="radio"],
+    .survey-option input[type="checkbox"] {
+      margin-top: 2px;
+      accent-color: var(--blue);
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .survey-option input[type="radio"]:checked ~ span,
+    .survey-option input[type="checkbox"]:checked ~ span {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .survey-option:has(input:checked) {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .survey-option span {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.4;
+    }
+    .survey-other-input {
+      margin-top: 8px;
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .survey-other-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25,103,255,0.1);
+    }
+    .survey-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem 0.9rem;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius);
+      background: var(--bg);
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .survey-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(25,103,255,0.1);
+    }
+    .survey-submit-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 2rem;
+    }
+    #surveyForm.survey-ready .survey-submit-row {
+      display: none;
+    }
+    #surveyForm.survey-ready .survey-submit-row.visible {
+      display: flex;
+    }
+    .survey-step-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .survey-step-actions button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .survey-note {
+      font-size: 12px;
+      color: var(--text-3);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .survey-thanks {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .survey-thanks-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--green-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .survey-thanks-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .survey-thanks p {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .survey-thanks span {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 300;
+    }
+
+    @media (max-width: 600px) {
+      .survey-wrap {
+        padding: 2.6rem 1.05rem;
+      }
+      .survey-q {
+        padding: 1.1rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -2394,6 +2626,12 @@
     R.U.C.
     <span class="nav-badge">Technical preview</span>
   </div>
+  <div class="nav-actions">
+    <select class="language-select" id="languageSelect" aria-label="Lingua">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+    </select>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -2417,20 +2655,13 @@
 <section class="product-intro" id="prodotto">
   <div class="product-intro-copy">
     <div class="section-label">Protocol bridge per automazione</div>
-    <h1>Programmi una volta. R.U.C. gestisce la traduzione verso i dispositivi configurati.</h1>
-    <p class="hero-sub">Attualmente supporta Siemens S7, Mitsubishi MELSEC, Beckhoff ADS, Modbus RTU/TCP e OPC UA.</p>
-    <div class="protocol-pills" aria-label="Protocolli supportati">
-      <span>S7comm</span>
-      <span>MC Protocol</span>
-      <span>Beckhoff ADS</span>
-      <span>Modbus RTU/TCP</span>
-      <span>OPC UA</span>
-    </div>
+    <h1>Programmi una volta. R.U.C. traduce verso i dispositivi configurati.</h1>
+    <p class="hero-sub">Un concept in technical preview per far comunicare PLC, robot e azionamenti di brand diversi da un unico punto di configurazione — senza riscrivere la logica di controllo esistente.</p>
     <div class="hero-visual" aria-hidden="true">
       <div class="terminal-card">
         <div class="terminal-top">
           <div class="window-dots"><span></span><span></span><span></span></div>
-          <div class="terminal-status">LIVE MAP</div>
+          <div class="terminal-status">SIM MAP</div>
         </div>
         <div class="terminal-body">
           <div class="signal-row">
@@ -2446,7 +2677,7 @@
           </div>
           <div class="translation-core">
             <div class="core-head">
-              <strong>Protocol bridge attivo</strong>
+              <strong>Protocol bridge simulato</strong>
               <span class="core-chip">latenza dipendente dall'hardware</span>
             </div>
             <div class="map-stack">
@@ -2457,8 +2688,8 @@
           </div>
           <div class="stat-strip">
             <div class="stat"><strong>1</strong><span>logica PLC</span></div>
-            <div class="stat"><strong>5</strong><span>protocolli supportati</span></div>
-            <div class="stat"><strong>0</strong><span>nessun gateway aggiuntivo per protocolli Ethernet-based</span></div>
+            <div class="stat"><strong>N</strong><span>protocolli industriali</span></div>
+            <div class="stat"><strong>-</strong><span>gateway dedicati per integrazione</span></div>
           </div>
         </div>
       </div>
@@ -2534,11 +2765,9 @@
         <p>R.U.C. riceve l'output e traduce</p>
         <span>Interpreta il comando, identifica il dispositivo destinatario e lo converte nel protocollo corretto per quel dispositivo specifico.</span>
         <div class="flow-code">
-          <span>S7comm</span><span class="arrow">→</span><span>Modbus RTU</span>
+          <span>PLC output</span><span class="arrow">→</span><span>normalizzazione</span>
           <span>&nbsp;|&nbsp;</span>
-          <span>S7comm</span><span class="arrow">→</span><span>Modbus TCP</span>
-          <span>&nbsp;|&nbsp;</span>
-          <span>S7comm</span><span class="arrow">→</span><span>OPC UA</span>
+          <span>routing</span><span class="arrow">→</span><span>protocollo nativo dispositivo</span>
         </div>
       </div>
     </div>
@@ -2568,7 +2797,7 @@
   </div>
 
   <div class="highlight-box">
-    <p>Protocolli supportati: Siemens S7 (S7comm/snap7), Mitsubishi MELSEC (MC Protocol), Beckhoff ADS, Modbus RTU/TCP, OPC UA. In valutazione: Rockwell EtherNet/IP, Omron FINS. Protocolli proprietari non documentati pubblicamente non sono previsti.</p>
+    <p>Il concept R.U.C. punta a supportare un insieme di protocolli industriali diffusi nei contesti manifatturieri. Il set di driver prioritari viene definito anche attraverso il feedback raccolto in questa fase.</p>
   </div>
 
   <div class="warning-box">
@@ -2597,7 +2826,7 @@
         Kepware / Ignition
       </div>
       <div class="vs-row no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Licenze enterprise, migliaia €/anno</span></div>
-      <div class="vs-row no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Serve un consulente per configurarlo</span></div>
+      <div class="vs-row no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Spesso richiede competenze dedicate</span></div>
       <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Molto potente e collaudato</span></div>
     </div>
     <div class="vs-card">
@@ -2615,9 +2844,9 @@
         <svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
         Rocket Unified Communication
       </div>
-      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Software su PC esistente, costo contenuto</span></div>
+      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Approccio software su PC industriale o macchina dedicata</span></div>
       <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Configurabile da un programmatore PLC in autonomia</span></div>
-      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Driver inclusi: S7comm, MC Protocol, Beckhoff ADS, Modbus RTU/TCP, OPC UA</span></div>
+      <div class="vs-row ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>Driver prioritari scelti sui casi reali raccolti</span></div>
       <div class="vs-row warn"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Technical preview — Non certificato per applicazioni safety-critical (SIL/PLe)</span></div>
     </div>
   </div>
@@ -2633,7 +2862,7 @@
     </div>
     <div>
       <p>PMI manifatturiere con impianti misti</p>
-      <span>Macchinari di brand diversi acquistati in anni diversi. Nessun budget per sostituirli, nessun system integrator interno. R.U.C. li fa lavorare insieme senza aggiungere hardware.</span>
+      <span>Macchinari di brand diversi acquistati in anni diversi. Nessun budget per sostituirli, nessun system integrator interno. R.U.C. propone un livello software per ridurre integrazioni punto-punto e gateway dedicati.</span>
     </div>
   </div>
   <div class="usecase">
@@ -2642,7 +2871,7 @@
     </div>
     <div>
       <p>Integratori di sistemi</p>
-      <span>Costruisci impianti su commessa con componenti di brand diversi. Smetti di riscrivere codice di interfacciamento da zero per ogni progetto — configuri R.U.C. una volta e riusi i driver.</span>
+      <span>Costruisci impianti su commessa con componenti di brand diversi. L'obiettivo è ridurre il codice di interfacciamento scritto da zero per ogni progetto, riusando driver e profili di mapping.</span>
     </div>
   </div>
   <div class="usecase">
@@ -2662,16 +2891,16 @@
 <!-- DEMO INTERATTIVA -->
 <section id="demo">
   <div class="section-label">Demo</div>
-  <h2>Guarda come funziona</h2>
-  <p class="section-sub">Una simulazione dell'interfaccia R.U.C. per dashboard, configurazione e flusso protocolli.</p>
+  <h2>Guarda il flusso previsto</h2>
+  <p class="section-sub">Esplora una simulazione dell'interfaccia R.U.C.: dashboard dei dispositivi, configurazione del mapping variabili, flusso di traduzione dei protocolli e log di sistema.</p>
   <div class="demo-open-wrap" id="demoOpenWrap">
-    <button type="button" class="btn-primary" id="openDemoBtn">Esplora l'interfaccia</button>
+    <button type="button" class="btn-primary" id="openDemoBtn">Esplora la simulazione</button>
   </div>
-  <p class="demo-inline-note" id="demoInlineNote">Nessuna installazione. Esplora l'interfaccia direttamente qui.</p>
+  <p class="demo-inline-note" id="demoInlineNote">Simulazione interattiva del concept. Nessuna installazione richiesta.</p>
   <div class="ruc-demo" id="demoApp">
     <div class="demo-shell">
       <div class="demo-topbar">
-        <div class="demo-title">R.U.C. Control UI / simulation</div>
+        <div class="demo-title">Simulazione UI R.U.C. / technical preview</div>
         <div class="demo-tabs" role="tablist" aria-label="Demo R.U.C.">
           <button type="button" class="demo-tab active" data-demo-tab="dashboard" role="tab" aria-selected="true">Dashboard</button>
           <button type="button" class="demo-tab" data-demo-tab="config" role="tab" aria-selected="false">Configurazione</button>
@@ -2706,13 +2935,13 @@
             Variabili: START_CYCLE, DB12.AXIS_X_POS
           </div>
           <div class="detail-actions">
-            <label>Protocollo
+            <label><span id="detailProtocolLabel">Protocollo</span>
               <select id="detailProtocolSelect"></select>
             </label>
             <button type="button" class="disconnect-btn remove-device-btn" id="removeDeviceBtn">Rimuovi dispositivo</button>
           </div>
         </div>
-        <div class="demo-footer" id="dashboardFooter">Active connections: <span id="activeConnectionsValue">3</span> — Avg latency: <span id="avgLatencyValue">3.2ms</span> — Uptime: <span id="uptimeValue">4h 32m</span> — 0 errors</div>
+        <div class="demo-footer" id="dashboardFooter"><span id="dashboardDevicesLabel">Dispositivi simulati:</span> <span id="activeConnectionsValue">3</span> — <span id="dashboardLatencyLabel">Latenza media stimata:</span> <span id="avgLatencyValue">3.2ms</span> — <span id="dashboardUptimeLabel">Uptime demo:</span> <span id="uptimeValue">4h 32m</span> — <span id="dashboardRouteLabel">R.U.C. instrada il comando verso il protocollo nativo del dispositivo destinatario</span></div>
       </div>
 
       <div class="demo-panel" id="demo-config" role="tabpanel">
@@ -2726,7 +2955,8 @@
             </div>
           </aside>
           <div class="config-form">
-            <h3>Add New Device</h3>
+            <h3>Aggiungi dispositivo</h3>
+            <p style="color:#9fb5d3;font-size:0.78rem;margin-bottom:1rem;line-height:1.55">Ogni dispositivo viene registrato con il suo protocollo nativo. R.U.C. usa questo mapping per tradurre i comandi del PLC nel formato che quel dispositivo capisce.</p>
             <div class="demo-form-grid">
               <div class="demo-field">
                 <label for="demoDeviceName">Nome</label>
@@ -2775,18 +3005,183 @@
           <div class="flow-wire wire-out-2"><span class="flow-packet"></span></div>
           <div class="flow-wire wire-out-3"><span class="flow-packet"></span></div>
           <div class="flow-wire wire-out-4"><span class="flow-packet"></span></div>
-          <div class="flow-label label-1">MC Protocol — attivo</div>
-          <div class="flow-label label-2">Beckhoff ADS — attivo</div>
-          <div class="flow-label label-3">Modbus RTU/TCP — attivo</div>
-          <div class="flow-label label-4">OPC UA — attivo</div>
+          <div class="flow-label label-1">MC Protocol — demo</div>
+          <div class="flow-label label-2">Beckhoff ADS — demo</div>
+          <div class="flow-label label-3">Modbus RTU/TCP — demo</div>
+          <div class="flow-label label-4">OPC UA — demo</div>
         </div>
-        <div class="demo-footer flow-status">Protocol bridge active — 5 protocolli supportati — 0 physical gateways</div>
+        <div class="demo-footer flow-status">Flusso simulato — Il PLC invia un comando → R.U.C. normalizza e instrada → ogni dispositivo riceve il formato previsto</div>
       </div>
 
       <div class="demo-panel" id="demo-log" role="tabpanel">
         <div class="log-terminal" id="logTerminal" aria-live="polite"></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- SURVEY -->
+<section class="survey-wrap" id="survey">
+  <div class="section-label">Questionario</div>
+  <h2>Aiutaci a migliorare R.U.C.</h2>
+  <p class="section-sub">Le tue risposte ci permettono di capire meglio le esigenze reali del settore e di orientare lo sviluppo del prodotto nella direzione giusta. Ci vogliono meno di 3 minuti.</p>
+
+  <div class="survey-intro-box">
+    <p>Questo questionario è rivolto a chi lavora con reti industriali e protocolli di comunicazione. Non ci sono risposte giuste o sbagliate — quello che conta è la tua esperienza concreta sul campo.</p>
+  </div>
+
+  <form
+    id="surveyForm"
+    method="POST"
+    action="https://formspree.io/f/xbdbqrye"
+    onsubmit="handleSurveySubmit(event)"
+  >
+    <div class="survey-questions">
+
+      <!-- D1 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 1 di 6</div>
+        <div class="survey-q-text">Quali ambienti di controllo o protocolli stai attualmente cercando di integrare?</div>
+        <p class="survey-q-note">Puoi selezionare più opzioni.</p>
+        <div class="survey-options">
+          <label class="survey-option">
+            <input type="checkbox" name="protocolli" value="Siemens (Profinet / MPI)" />
+            <span>Siemens (Profinet / MPI)</span>
+          </label>
+          <label class="survey-option">
+            <input type="checkbox" name="protocolli" value="Rockwell / Allen-Bradley (EtherNet/IP / DeviceNet)" />
+            <span>Rockwell / Allen-Bradley (EtherNet/IP / DeviceNet)</span>
+          </label>
+          <label class="survey-option">
+            <input type="checkbox" name="protocolli" value="Schneider Electric / Modbus (TCP/RTU)" />
+            <span>Schneider Electric / Modbus (TCP/RTU)</span>
+          </label>
+          <label class="survey-option">
+            <input type="checkbox" name="protocolli" value="Beckhoff (EtherCAT)" />
+            <span>Beckhoff (EtherCAT)</span>
+          </label>
+          <label class="survey-option">
+            <input type="checkbox" name="protocolli" value="Livello IT/IoT (OPC UA / MQTT / SQL)" />
+            <span>Livello IT/IoT (OPC UA / MQTT / SQL)</span>
+          </label>
+          <label class="survey-option" id="survey-d1-altro-opt">
+            <input type="checkbox" name="protocolli" value="Altro" id="survey-d1-altro-cb" onchange="toggleOther('survey-d1-altro-field', this.checked)" />
+            <span>Altro</span>
+          </label>
+          <input type="text" class="survey-other-input" id="survey-d1-altro-field" name="protocolli_altro" placeholder="Specifica..." style="display:none" />
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 2 di 6</div>
+        <div class="survey-q-text">Qual è il tempo di ciclo di rete tipico richiesto nelle tue applicazioni?</div>
+        <div class="survey-options">
+          <label class="survey-option">
+            <input type="radio" name="ciclo_rete" value="Sub-millisecondo (controllo assi ad alta velocità)" required />
+            <span>Sub-millisecondo (controllo assi ad alta velocità)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="ciclo_rete" value="1–10 ms (interblocco PLC-PLC standard)" />
+            <span>1–10 ms (interblocco PLC-PLC standard)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="ciclo_rete" value="10–100 ms (aggiornamenti SCADA / HMI)" />
+            <span>10–100 ms (aggiornamenti SCADA / HMI)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="ciclo_rete" value=">100 ms (data logging / MES / Historian)" />
+            <span>&gt;100 ms (data logging / MES / Historian)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 3 di 6</div>
+        <div class="survey-q-text">Qual è attualmente il tuo principale collo di bottiglia nell'integrare reti diverse?</div>
+        <div class="survey-options">
+          <label class="survey-option">
+            <input type="radio" name="bottleneck" value="Costi di licenza middleware (es. Kepware, Ignition)" required />
+            <span>Costi di licenza middleware (es. Kepware, Ignition)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="bottleneck" value="Manutenzione della mappatura tag / data block quando cambia la logica PLC" />
+            <span>Manutenzione della mappatura tag / data block quando cambia la logica PLC</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="bottleneck" value="Latenza di rete e timeout di comunicazione" />
+            <span>Latenza di rete e timeout di comunicazione</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="bottleneck" value="Problemi di sicurezza (collegare reti OT a livelli IT/Cloud)" />
+            <span>Problemi di sicurezza (collegare reti OT a livelli IT/Cloud)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 4 di 6</div>
+        <div class="survey-q-text">Come stai gestendo questo bridge di comunicazione oggi?</div>
+        <div class="survey-options">
+          <label class="survey-option">
+            <input type="radio" name="soluzione_attuale" value="Usiamo moduli gateway hardware dedicati (es. Anybus)" required />
+            <span>Usiamo moduli gateway hardware dedicati (es. Anybus)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="soluzione_attuale" value="Paghiamo server OPC basati su PC / licenze middleware" />
+            <span>Paghiamo server OPC basati su PC / licenze middleware</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="soluzione_attuale" value="Scriviamo manualmente driver personalizzati o blocchi SCL per fare il packing/unpacking dei byte" />
+            <span>Scriviamo manualmente driver personalizzati o blocchi SCL per fare il packing/unpacking dei byte</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- D5 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 5 di 6</div>
+        <div class="survey-q-text">Se un livello di protocollo a mappatura zero soddisfacesse i tuoi requisiti di ciclo, in quanto tempo saresti disposto a testarlo in un ambiente non produttivo?</div>
+        <div class="survey-options">
+          <label class="survey-option">
+            <input type="radio" name="tempistica_test" value="Entro 30 giorni (ho un progetto attivo con questo problema adesso)" required />
+            <span>Entro 30 giorni (ho un progetto attivo con questo problema adesso)</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="tempistica_test" value="Entro 2–6 mesi" />
+            <span>Entro 2–6 mesi</span>
+          </label>
+          <label class="survey-option">
+            <input type="radio" name="tempistica_test" value="Sto solo raccogliendo informazioni per aggiornamenti architetturali futuri" />
+            <span>Sto solo raccogliendo informazioni per aggiornamenti architetturali futuri</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- D6 -->
+      <div class="survey-q">
+        <div class="survey-q-label">Domanda 6 di 6 — Opzionale</div>
+        <div class="survey-q-text">Hai un manifest hardware, uno schema di rete o un layout di data block da condividere?</div>
+        <p class="survey-q-note">Ci aiuta a pre-configurare il profilo di mappatura protocollo sulla base del tuo setup reale. Incolla un frammento di testo o descrivi brevemente la tua architettura.</p>
+        <textarea class="survey-textarea" name="architettura_note" placeholder="Es. PLC Siemens S7-1500 → gateway → robot Fanuc tramite EtherNet/IP, mappatura manuale attuale di 42 variabili..."></textarea>
+      </div>
+
+    </div><!-- end survey-questions -->
+
+    <div class="survey-submit-row">
+      <button type="submit" class="btn-primary">Invia le risposte</button>
+      <p class="survey-note">Le risposte sono anonime salvo che tu non voglia essere ricontattato — in quel caso usa il form contatti qui sotto. Nessun dato sarà condiviso con terze parti.</p>
+    </div>
+  </form>
+
+  <div class="survey-thanks" id="surveyThanks">
+    <div class="survey-thanks-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <p>Grazie per il tuo contributo!</p>
+    <span>Le tue risposte ci aiutano concretamente a capire dove concentrare lo sviluppo. Se vuoi rimanere aggiornato, lasciaci i tuoi contatti nel form qui sotto.</span>
   </div>
 </section>
 
@@ -2844,9 +3239,8 @@
     </div>
     <p>Grazie! Il tuo interesse è stato registrato.</p>
     <div class="thanks-copy">
-      <p>R.U.C. è un pretotipo creato da studenti ITS PRIME per un progetto didattico del modulo di Processi produttivi e sostenibilità ambientale ed economica, con l'obiettivo di capire quante persone sarebbero realmente interessate a una soluzione di questo tipo. R.U.C. non è un prodotto realmente in sviluppo.</p>
-      <p>Ti chiediamo gentilmente di mantenere riservato il contesto del progetto, in particolare il fatto che sia stato realizzato da studenti ITS, così da non influenzare la percezione degli altri utenti e visitatori.</p>
-      <p>Grazie davvero per il tempo, la fiducia e il contributo. Il tuo supporto ci aiuta a rendere questo esperimento più credibile e utile per il nostro percorso.</p>
+      <p>R.U.C. è un concept in fase di validazione: non è attualmente in sviluppo attivo. Stiamo raccogliendo feedback per capire se c'è interesse reale prima di procedere.</p>
+      <p>Il tuo contatto ci aiuta a valutare quanto sia sentito il problema e a decidere i prossimi passi. Nessuna vendita, nessuno spam — ti contatteremo solo se avremo aggiornamenti concreti da condividere.</p>
     </div>
   </div>
 </div>
@@ -2866,7 +3260,7 @@
     <p>Questa informativa descrive il trattamento dei dati personali raccolti tramite il form di contatto presente sul sito R.U.C.</p>
 
     <h3>Natura del progetto</h3>
-    <p>R.U.C. è un pretotipo realizzato per finalità didattiche e di analisi dell'interesse verso un concept. R.U.C. non è un prodotto realmente in sviluppo.</p>
+    <p>R.U.C. è un concept in fase di validazione. Il prodotto non è attualmente in sviluppo attivo — stiamo raccogliendo feedback per valutare l'interesse reale prima di procedere.</p>
     <p>Per non influenzare le reazioni di altri utenti e visitatori, chiediamo gentilmente a chi viene a conoscenza del contesto didattico del progetto di non divulgarlo pubblicamente, ad esempio nei commenti o nelle condivisioni online.</p>
 
     <h3>Titolare del trattamento</h3>
@@ -2983,6 +3377,299 @@
     return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
+  const LANGUAGE_STORAGE_KEY = 'ruc-language-v1';
+  let currentLanguage = 'it';
+  const originalI18nValues = new Map();
+
+  const i18nItems = [
+    { selector: '.nav-badge', text: 'Technical preview' },
+    { selector: '.hero-brand-kicker', text: 'industrial protocol bridge' },
+    { selector: '.hero-brand-subline', text: 'R.U.C. / unified machine language' },
+    { selector: '#prodotto .section-label', text: 'Protocol bridge for automation' },
+    { selector: '#prodotto h1', text: 'Program once. R.U.C. translates for each configured device.' },
+    { selector: '#prodotto .hero-sub', text: 'A technical-preview concept for connecting PLCs, robots and drives from different vendors through one configuration layer, without rewriting the existing control logic.' },
+    { selector: '.terminal-status', text: 'SIM MAP' },
+    { selector: '.core-head strong', text: 'Simulated protocol bridge' },
+    { selector: '.core-chip', text: 'latency depends on hardware' },
+    { selector: '.stat:nth-child(1) span', text: 'PLC logic' },
+    { selector: '.stat:nth-child(2) span', text: 'industrial protocols' },
+    { selector: '.stat:nth-child(3) span', text: 'dedicated gateways per integration' },
+    { selector: '.hero-actions .btn-primary', text: 'View demo' },
+    { selector: '.hero-actions .btn-secondary', text: 'Request information' },
+
+    { selector: '#problema .section-label', text: 'The problem' },
+    { selector: '#problema h2', text: 'Every machine speaks its own language. Integration costs time and money.' },
+    { selector: '#problema .section-sub', text: 'Anyone working with mixed industrial lines knows the pain: making a Fanuc robot, a Siemens PLC and an ABB drive talk to each other often means custom code, niche expertise and weeks of work. Then the next project starts from scratch.' },
+    { selector: '#problema .problem-card:nth-child(1) p', text: 'Incompatible protocols across vendors' },
+    { selector: '#problema .problem-card:nth-child(1) span', text: 'Each supplier brings its own proprietary language' },
+    { selector: '#problema .problem-card:nth-child(2) p', text: 'Weeks of work for every integration' },
+    { selector: '#problema .problem-card:nth-child(2) span', text: 'Hand-written code, case by case, project by project' },
+    { selector: '#problema .problem-card:nth-child(3) p', text: 'Costly, rigid hardware gateways' },
+    { selector: '#problema .problem-card:nth-child(3) span', text: 'Hundreds of euros per node, hard to update or extend' },
+
+    { selector: '#come-funziona .section-label', text: 'How it works' },
+    { selector: '#come-funziona h2', text: 'It is not plug and play. It is simply easier than what you have now.' },
+    { selector: '#come-funziona > .section-sub', text: 'R.U.C. starts with an initial setup: connect devices, assign variables and select protocol drivers. Once configured, it handles translation automatically, without changing the existing control logic.' },
+    { selector: '#come-funziona .highlight-box:nth-of-type(2) p', text: 'R.U.C. is designed to run on a PC connected to the factory network. It receives PLC outputs, interprets them and sends each device the command in its native language. Feedback is converted back for the PLC, with latency depending on the selected hardware.' },
+    { selector: '#come-funziona .flow-item:nth-child(1) .flow-content p', text: 'The PLC runs the control logic' },
+    { selector: '#come-funziona .flow-item:nth-child(1) .flow-content span', text: 'Write Structured Text or Ladder as usual. The PLC remains the execution brain: R.U.C. does not replace it and does not modify how it works.' },
+    { selector: '#come-funziona .flow-item:nth-child(2) .flow-content p', text: 'R.U.C. receives the output and translates it' },
+    { selector: '#come-funziona .flow-item:nth-child(2) .flow-content > span', text: 'It interprets the command, identifies the target device and converts it into the correct protocol for that specific device.' },
+    { selector: '#come-funziona .flow-code span:nth-child(3)', text: 'normalization' },
+    { selector: '#come-funziona .flow-code span:nth-child(6)', text: 'native device protocol' },
+    { selector: '#come-funziona .flow-item:nth-child(3) .flow-content p', text: 'The device receives its native command' },
+    { selector: '#come-funziona .flow-item:nth-child(3) .flow-content span', text: 'Robots, drives and sensors receive exactly what they understand, with fewer physical gateways and without changing the machine logic.' },
+    { selector: '#come-funziona .flow-item:nth-child(4) .flow-content p', text: 'The response returns to the PLC' },
+    { selector: '#come-funziona .flow-item:nth-child(4) .flow-content span', text: 'R.U.C. receives device feedback and converts it back into the format expected by the PLC. The loop closes, and the PLC sees a coherent system.' },
+    { selector: '#come-funziona .highlight-box:nth-of-type(4) p', text: 'The R.U.C. concept aims to support common industrial protocols used in manufacturing. Driver priorities are shaped by the real-world feedback collected during this validation phase.' },
+    { selector: '#come-funziona .warning-box p', html: '<strong>What R.U.C. does not do:</strong> it does not replace the PLC, rewrite your control logic or require you to replace existing machines. It sits between what you already have and helps it communicate. Latency depends on the selected hardware: an industrial Linux PC is a different class of target than an office Windows machine.' },
+
+    { selector: '#confronto .section-label', text: 'Comparison' },
+    { selector: '#confronto h2', text: 'Why not just use what already exists?' },
+    { selector: '#confronto .section-sub', text: 'Similar solutions exist. The gap is that many are built for teams with dedicated system integrators or enterprise-level budgets.' },
+    { selector: '#confronto .vs-card:nth-child(1) .vs-row:nth-child(2) span', text: 'Hundreds of euros per physical node' },
+    { selector: '#confronto .vs-card:nth-child(1) .vs-row:nth-child(3) span', text: 'Rigid and hard to update' },
+    { selector: '#confronto .vs-card:nth-child(1) .vs-row:nth-child(4) span', text: 'Stable and certified' },
+    { selector: '#confronto .vs-card:nth-child(2) .vs-row:nth-child(2) span', text: 'Enterprise licences, often thousands per year' },
+    { selector: '#confronto .vs-card:nth-child(2) .vs-row:nth-child(3) span', text: 'Often requires dedicated expertise' },
+    { selector: '#confronto .vs-card:nth-child(2) .vs-row:nth-child(4) span', text: 'Powerful and proven' },
+    { selector: '#confronto .vs-card:nth-child(3) .vs-row:nth-child(2) span', text: 'A standard, not a complete integration layer' },
+    { selector: '#confronto .vs-card:nth-child(3) .vs-row:nth-child(3) span', text: 'Requires native support on each device' },
+    { selector: '#confronto .vs-card:nth-child(3) .vs-row:nth-child(4) span', text: 'Open, widely adopted and free' },
+    { selector: '#confronto .vs-card.featured .vs-row:nth-child(3) span', text: 'Software approach for an industrial PC or dedicated machine' },
+    { selector: '#confronto .vs-card.featured .vs-row:nth-child(4) span', text: 'Designed to be configured by PLC programmers' },
+    { selector: '#confronto .vs-card.featured .vs-row:nth-child(5) span', text: 'Driver priorities based on real use cases' },
+    { selector: '#confronto .vs-card.featured .vs-row:nth-child(6) span', text: 'Technical preview — Not certified for safety-critical applications (SIL/PLe)' },
+
+    { selector: '#casi-duso .section-label', text: 'Use cases' },
+    { selector: '#casi-duso h2', text: 'Who needs it most' },
+    { selector: '#casi-duso .usecase:nth-child(3) p', text: 'Manufacturing SMEs with mixed equipment' },
+    { selector: '#casi-duso .usecase:nth-child(3) span', text: 'Machines from different brands, bought in different years. Limited budget, no internal system integration team. R.U.C. proposes a software layer to reduce point-to-point integration and dedicated gateways.' },
+    { selector: '#casi-duso .usecase:nth-child(4) p', text: 'System integrators' },
+    { selector: '#casi-duso .usecase:nth-child(4) span', text: 'When every commissioned line uses a different mix of components, the goal is to reduce custom interface code and reuse drivers and mapping profiles.' },
+    { selector: '#casi-duso .usecase:nth-child(5) p', text: 'Multi-brand robot lines' },
+    { selector: '#casi-duso .usecase:nth-child(5) span', text: 'Robots from different manufacturers sharing the same work area. R.U.C. routes position and status commands through one configuration point.' },
+    { selector: '#casi-duso .honest-note p', html: '<strong>An honest note:</strong> R.U.C. is intended for medium-complexity automation in non-safety-critical contexts. For applications requiring functional safety certification (ISO 13849, IEC 62061), certified existing solutions remain the right choice.' },
+
+    { selector: '#demo .section-label', text: 'Demo' },
+    { selector: '#demo h2', text: 'Explore the intended flow' },
+    { selector: '#demo > .section-sub', text: 'Explore a simulation of the R.U.C. interface: device dashboard, variable mapping, protocol translation flow and system logs.' },
+    { selector: '#openDemoBtn', text: 'Explore the simulation' },
+    { selector: '#demoInlineNote', text: 'Interactive concept simulation. No installation required.' },
+    { selector: '.demo-title', text: 'R.U.C. UI simulation / technical preview' },
+    { selector: '[data-demo-tab="config"]', text: 'Configuration' },
+    { selector: '#deviceDetail .detail-copy', html: '<strong>PLC Siemens S7-1500</strong><br>Protocol: S7comm<br>IP: 192.168.0.12<br>Variables: START_CYCLE, DB12.AXIS_X_POS' },
+    { selector: '#detailProtocolLabel', text: 'Protocol' },
+    { selector: '.device-bottom .disconnect-btn', text: 'Disconnect', itText: 'Disconnetti', all: true },
+    { selector: '#removeDeviceBtn', text: 'Remove device' },
+    { selector: '#dashboardDevicesLabel', text: 'Simulated devices:' },
+    { selector: '#dashboardLatencyLabel', text: 'Estimated average latency:' },
+    { selector: '#dashboardUptimeLabel', text: 'Demo uptime:' },
+    { selector: '#dashboardRouteLabel', text: 'R.U.C. routes the command to the target device native protocol' },
+    { selector: '.config-label', text: 'Devices' },
+    { selector: '.config-form h3', text: 'Add device' },
+    { selector: '.config-form > p', text: 'Each device is registered with its native protocol. R.U.C. uses this mapping to translate PLC commands into the format that device understands.' },
+    { selector: 'label[for="demoDeviceName"]', text: 'Name' },
+    { selector: 'label[for="demoProtocol"]', text: 'Protocol' },
+    { selector: '.variable-table th:nth-child(1)', text: 'Variable' },
+    { selector: '.variable-table th:nth-child(2)', text: 'Type' },
+    { selector: '.save-config', text: 'Save configuration' },
+    { selector: '#demoToast', text: 'Configuration saved' },
+    { selector: '#flowPauseBtn', text: 'Pause' },
+    { selector: '.node-core small', text: 'normalize / route' },
+    { selector: '.node-right-3 small', text: 'registers 40001+' },
+    { selector: '.flow-label.label-1', text: 'MC Protocol — demo' },
+    { selector: '.flow-label.label-2', text: 'Beckhoff ADS — demo' },
+    { selector: '.flow-label.label-3', text: 'Modbus RTU/TCP — demo' },
+    { selector: '.flow-label.label-4', text: 'OPC UA — demo' },
+    { selector: '.flow-status', text: 'Simulated flow — The PLC sends a command → R.U.C. normalizes and routes it → each device receives the expected format' },
+
+    { selector: '#survey .section-label', text: 'Survey' },
+    { selector: '#survey h2', text: 'Help us improve R.U.C.' },
+    { selector: '#survey > .section-sub', text: 'Your answers help us understand real industry needs and steer product development in the right direction. It takes less than 3 minutes.' },
+    { selector: '.survey-intro-box p', text: 'This survey is for people who work with industrial networks and communication protocols. There are no right or wrong answers: what matters is your field experience.' },
+    { selector: '.survey-q:nth-child(1) .survey-q-label', text: 'Question 1 of 6' },
+    { selector: '.survey-q:nth-child(1) .survey-q-text', text: 'Which control environments or protocols are you currently trying to integrate?' },
+    { selector: '.survey-q:nth-child(1) .survey-q-note', text: 'You can select more than one option.' },
+    { selector: '#survey-d1-altro-opt span', text: 'Other' },
+    { selector: '#survey-d1-altro-field', placeholder: 'Please specify...' },
+    { selector: '.survey-q:nth-child(2) .survey-q-label', text: 'Question 2 of 6' },
+    { selector: '.survey-q:nth-child(2) .survey-q-text', text: 'What network cycle time do your applications typically require?' },
+    { selector: '.survey-q:nth-child(2) .survey-option:nth-child(1) span', text: 'Sub-millisecond (high-speed motion control)' },
+    { selector: '.survey-q:nth-child(2) .survey-option:nth-child(2) span', text: '1–10 ms (standard PLC-to-PLC interlock)' },
+    { selector: '.survey-q:nth-child(2) .survey-option:nth-child(3) span', text: '10–100 ms (SCADA / HMI updates)' },
+    { selector: '.survey-q:nth-child(2) .survey-option:nth-child(4) span', text: '>100 ms (data logging / MES / historian)' },
+    { selector: '.survey-q:nth-child(3) .survey-q-label', text: 'Question 3 of 6' },
+    { selector: '.survey-q:nth-child(3) .survey-q-text', text: 'What is your main bottleneck when integrating different networks today?' },
+    { selector: '.survey-q:nth-child(3) .survey-option:nth-child(1) span', text: 'Middleware licensing costs (for example Kepware or Ignition)' },
+    { selector: '.survey-q:nth-child(3) .survey-option:nth-child(2) span', text: 'Maintaining tag / data block mappings when PLC logic changes' },
+    { selector: '.survey-q:nth-child(3) .survey-option:nth-child(3) span', text: 'Network latency and communication timeouts' },
+    { selector: '.survey-q:nth-child(3) .survey-option:nth-child(4) span', text: 'Security concerns when connecting OT networks to IT or cloud layers' },
+    { selector: '.survey-q:nth-child(4) .survey-q-label', text: 'Question 4 of 6' },
+    { selector: '.survey-q:nth-child(4) .survey-q-text', text: 'How are you handling this communication bridge today?' },
+    { selector: '.survey-q:nth-child(4) .survey-option:nth-child(1) span', text: 'Dedicated hardware gateways (for example Anybus)' },
+    { selector: '.survey-q:nth-child(4) .survey-option:nth-child(2) span', text: 'PC-based OPC servers / middleware licences' },
+    { selector: '.survey-q:nth-child(4) .survey-option:nth-child(3) span', text: 'Manual custom drivers or PLC blocks for byte packing and unpacking' },
+    { selector: '.survey-q:nth-child(5) .survey-q-label', text: 'Question 5 of 6' },
+    { selector: '.survey-q:nth-child(5) .survey-q-text', text: 'If a zero-mapping protocol layer met your cycle-time requirements, how soon would you test it in a non-production environment?' },
+    { selector: '.survey-q:nth-child(5) .survey-option:nth-child(1) span', text: 'Within 30 days (I have an active project with this problem now)' },
+    { selector: '.survey-q:nth-child(5) .survey-option:nth-child(2) span', text: 'Within 2–6 months' },
+    { selector: '.survey-q:nth-child(5) .survey-option:nth-child(3) span', text: 'I am only gathering information for future architecture updates' },
+    { selector: '.survey-q:nth-child(6) .survey-q-label', text: 'Question 6 of 6 — Optional' },
+    { selector: '.survey-q:nth-child(6) .survey-q-text', text: 'Do you have a hardware manifest, network diagram or data block layout to share?' },
+    { selector: '.survey-q:nth-child(6) .survey-q-note', text: 'It helps us pre-configure the protocol mapping profile around a real setup. Paste a snippet or briefly describe your architecture.' },
+    { selector: '.survey-textarea', placeholder: 'Example: Siemens S7-1500 PLC → gateway → Fanuc robot over EtherNet/IP, current manual mapping of 42 variables...' },
+    { selector: '.survey-step-actions .btn-secondary', text: 'Back', itText: 'Indietro', all: true },
+    { selector: '.survey-step-actions .btn-primary', text: 'Next', itText: 'Avanti', all: true },
+    { selector: '.survey-submit-row .btn-primary', text: 'Submit answers' },
+    { selector: '.survey-note', text: 'Answers are anonymous unless you want to be contacted: in that case, use the contact form below. No data will be shared with third parties.' },
+    { selector: '#surveyThanks p', text: 'Thank you for your contribution!' },
+    { selector: '#surveyThanks span', text: 'Your answers help us understand where to focus development. If you want updates, leave your contact details in the form below.' },
+
+    { selector: '#contatti .section-label', text: 'Contact' },
+    { selector: '#contatti h2', text: 'Do you work in industrial automation?' },
+    { selector: '#contatti > .section-sub', text: 'We are collecting feedback from technicians, integrators and production managers. If this problem feels familiar, or if you want to evaluate the approach on a real case, leave us your contact details.' },
+    { selector: '#ctaBtn', text: 'Request information' },
+    { selector: 'label[for="fname"]', text: 'Name' },
+    { selector: '#fname', placeholder: 'Mario' },
+    { selector: '#femail', placeholder: 'mario@company.com' },
+    { selector: 'label[for="frole"]', text: 'Role' },
+    { selector: '#frole option:nth-child(1)', text: 'Select...' },
+    { selector: '#frole option:nth-child(2)', text: 'Automation technician' },
+    { selector: '#frole option:nth-child(3)', text: 'PLC programmer' },
+    { selector: '#frole option:nth-child(4)', text: 'System integrator' },
+    { selector: '#frole option:nth-child(5)', text: 'Production manager' },
+    { selector: '#frole option:nth-child(6)', text: 'Owner / purchasing manager' },
+    { selector: '#frole option:nth-child(7)', text: 'Other' },
+    { selector: 'label[for="fcompany"]', text: 'Company (optional)' },
+    { selector: '#fcompany', placeholder: 'Company name' },
+    { selector: 'label[for="frequests"]', text: 'Additional notes' },
+    { selector: '#frequests', placeholder: 'Tell us about specific needs or points you would like to explore' },
+    { selector: '.form-submit', text: 'Send' },
+    { selector: '.form-note', text: 'No sales push, no spam. Your data will remain private and will only be used to handle the request.' },
+    { selector: '#thanks > p', text: 'Thank you! Your interest has been recorded.' },
+    { selector: '.thanks-copy p:nth-child(1)', text: 'R.U.C. is a concept in validation: it is not currently in active development. We are collecting feedback to understand whether there is real interest before moving forward.' },
+    { selector: '.thanks-copy p:nth-child(2)', text: 'Your contact helps us evaluate how strongly the problem is felt and decide the next steps. No sales, no spam: we will only contact you if we have concrete updates to share.' },
+    { selector: 'footer p', text: 'R.U.C. — Rocket Unified Communication - Technical preview' },
+    { selector: '.privacy-link', text: 'Privacy notice' },
+    { selector: '#privacyTitle', text: 'Privacy notice' },
+    { selector: '.privacy-close', text: 'Close' },
+    { selector: '.privacy-dialog h3:nth-of-type(1)', text: 'Project status' },
+    { selector: '.privacy-dialog h3:nth-of-type(2)', text: 'Data controller' },
+    { selector: '.privacy-dialog h3:nth-of-type(3)', text: 'Data collected' },
+    { selector: '.privacy-dialog h3:nth-of-type(4)', text: 'Purpose' },
+    { selector: '.privacy-dialog h3:nth-of-type(5)', text: 'Legal basis' },
+    { selector: '.privacy-dialog h3:nth-of-type(6)', text: 'Services used' },
+    { selector: '.privacy-dialog h3:nth-of-type(7)', text: 'Retention' },
+    { selector: '.privacy-dialog h3:nth-of-type(8)', text: 'Disclosure' },
+    { selector: '.privacy-dialog h3:nth-of-type(9)', text: 'Your rights' },
+    { selector: '.privacy-dialog > p:nth-of-type(1)', text: 'This notice describes how personal data collected through the R.U.C. contact form is processed.' },
+    { selector: '.privacy-dialog > p:nth-of-type(2)', text: 'R.U.C. is a concept in validation. The product is not currently in active development: we are collecting feedback to evaluate real interest before proceeding.' },
+    { selector: '.privacy-dialog > p:nth-of-type(3)', text: 'To avoid influencing other visitors, we kindly ask anyone aware of the educational context of the project not to disclose it publicly, for example in comments or social posts.' },
+    { selector: '.privacy-dialog > p:nth-of-type(4)', html: 'Data processing is managed by the ITS PRIME students responsible for the R.U.C. project, developed within the course on production processes and environmental/economic sustainability. For privacy requests, write to <a href="mailto:marcopistolesi@studenti.itsprime.it">marcopistolesi@studenti.itsprime.it</a>.' },
+    { selector: '.privacy-dialog > p:nth-of-type(5)', text: 'The form may collect name, email address, professional role, company if provided, and any information entered in the notes field.' },
+    { selector: '.privacy-dialog > p:nth-of-type(6)', text: 'Data is collected only to handle requests, analyze interest in the R.U.C. concept and support educational evaluation of the project. Data will not be used for sales, spam or unsolicited commercial communication.' },
+    { selector: '.privacy-dialog > p:nth-of-type(7)', text: 'Processing is based on user consent, expressed by voluntarily submitting the form.' },
+    { selector: '.privacy-dialog > p:nth-of-type(8)', text: 'Form submission is handled through Formspree. The site uses GoatCounter to collect aggregated page and interaction statistics without commercial profiling.' },
+    { selector: '.privacy-dialog > p:nth-of-type(9)', text: 'Data will be stored only as long as needed for the educational activity and project analysis, and no longer than 6 months from collection.' },
+    { selector: '.privacy-dialog > p:nth-of-type(10)', text: 'Data will not be sold, publicly disclosed or transferred to third parties for commercial purposes. It may be accessed only by project participants and technical services required for forms and analytics.' },
+    { selector: '.privacy-dialog > p:nth-of-type(11)', html: 'Users may request access, correction, deletion, processing limitation or withdrawal of consent at any time by writing to <a href="mailto:marcopistolesi@studenti.itsprime.it">marcopistolesi@studenti.itsprime.it</a>.' }
+  ];
+
+  const languageMeta = {
+    it: {
+      htmlLang: 'it',
+      title: 'R.U.C. — Rocket Unified Communication',
+      description: 'Un software che traduce i comandi del tuo PLC verso robot e dispositivi di brand diversi. Automazione industriale senza barriere di protocollo.',
+      selectorLabel: 'Lingua',
+      next: 'Avanti',
+      back: 'Indietro',
+      submitSending: 'Invio in corso…',
+      submitDefault: 'Invia le risposte',
+      requiredAlert: 'Seleziona almeno una risposta per continuare.',
+      surveyError: 'Errore nell\'invio. Riprova tra qualche secondo.',
+      networkError: 'Errore di rete. Controlla la connessione e riprova.'
+    },
+    en: {
+      htmlLang: 'en',
+      title: 'R.U.C. — Rocket Unified Communication',
+      description: 'A technical-preview software concept for translating PLC commands toward robots, drives and industrial devices from different vendors.',
+      selectorLabel: 'Language',
+      next: 'Next',
+      back: 'Back',
+      submitSending: 'Sending…',
+      submitDefault: 'Submit answers',
+      requiredAlert: 'Select at least one answer to continue.',
+      surveyError: 'Submission failed. Please try again in a few seconds.',
+      networkError: 'Network error. Check your connection and try again.'
+    }
+  };
+
+  function captureOriginalI18nValues() {
+    i18nItems.forEach((item, index) => {
+      const nodes = item.all ? [...document.querySelectorAll(item.selector)] : [document.querySelector(item.selector)].filter(Boolean);
+      nodes.forEach((node, nodeIndex) => {
+        const key = `${index}:${nodeIndex}`;
+        if (originalI18nValues.has(key)) return;
+        if (item.html) {
+          originalI18nValues.set(key, node.innerHTML);
+        } else if (item.placeholder) {
+          originalI18nValues.set(key, node.getAttribute('placeholder') || '');
+        } else {
+          originalI18nValues.set(key, node.textContent);
+        }
+      });
+    });
+  }
+
+  function applyLanguage(language) {
+    currentLanguage = language === 'en' ? 'en' : 'it';
+    const meta = languageMeta[currentLanguage];
+    document.documentElement.lang = meta.htmlLang;
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+    document.getElementById('languageSelect')?.setAttribute('aria-label', meta.selectorLabel);
+
+    i18nItems.forEach((item, index) => {
+      const nodes = item.all ? [...document.querySelectorAll(item.selector)] : [document.querySelector(item.selector)].filter(Boolean);
+      nodes.forEach((node, nodeIndex) => {
+        const fallback = originalI18nValues.get(`${index}:${nodeIndex}`);
+        const value = currentLanguage === 'en'
+          ? (item.html || item.placeholder || item.text)
+          : (item.itHtml || item.itPlaceholder || item.itText || fallback);
+        if (value === undefined) return;
+        if (item.html) {
+          node.innerHTML = value;
+        } else if (item.placeholder) {
+          node.setAttribute('placeholder', value);
+        } else {
+          node.textContent = value;
+        }
+      });
+    });
+
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, currentLanguage);
+    } catch (_) {}
+  }
+
+  function initLanguageSwitcher() {
+    const select = document.getElementById('languageSelect');
+    if (!select) return;
+    captureOriginalI18nValues();
+    let savedLanguage = 'it';
+    try {
+      savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) || 'it';
+    } catch (_) {}
+    select.value = savedLanguage === 'en' ? 'en' : 'it';
+    applyLanguage(select.value);
+    select.addEventListener('change', () => {
+      captureOriginalI18nValues();
+      applyLanguage(select.value);
+      trackEvent(`language-${select.value}`, `Lingua selezionata: ${select.value.toUpperCase()}`);
+    });
+  }
+
   function initInteractiveDemo() {
     const tabs = document.querySelectorAll('[data-demo-tab]');
     const panels = {
@@ -3050,18 +3737,48 @@
         ['AXIS_X_POS', 'REAL', 'ns=2;i=1002']
       ]
     };
-    const logLines = [
-      '[INFO] ruc-core  sync cycle #18421 started  plc=192.168.0.12',
-      '[OK] s7comm.read  DB12.DBX0.0 START_CYCLE=1  2.7ms',
-      '[OK] route.match  START_CYCLE → COM4/node3 coil:0001',
-      '[OK] modbus-rtu.write  node=3 reg=40001 value=1  3.6ms',
-      '[OK] ads.read  MAIN.ACTUAL_RPM=1480  target=1500  2.8ms',
-      '[INFO] heartbeat  plc=online inverter=running motor=enabled',
-      '[OK] modbus-rtu.read  node=3 reg=40007 DRIVE_FAULT=0  3.4ms',
-      '[OK] ads.write  MAIN.MOTOR_ENABLE=true  ams=5.33.204.1.1  2.9ms',
-      '[WARN] modbus-rtu.retry  node=3 attempt=1 jitter=4.6ms',
-      '[OK] ruc-core  cycle closed  active=3 errors=0 avg=3.2ms'
+    const logLinesIt = [
+      '[INFO] ruc-core  avvio ciclo di sincronizzazione #18421  plc=192.168.0.12',
+      '[INFO] ruc-core  lettura variabili dal PLC in corso...',
+      '[OK] driver.read  START_CYCLE=1 letto dal PLC  2.7ms',
+      '[INFO] router  variabile START_CYCLE → ricerca dispositivo destinatario...',
+      '[OK] router  destinatario trovato: Modbus RTU Inverter (COM4/node3)',
+      '[INFO] translator  conversione formato PLC → Modbus RTU in corso',
+      '[OK] driver.write  comando scritto su inverter Modbus RTU  3.6ms',
+      '[OK] driver.read  ACTUAL_RPM=1480 letto da Beckhoff Servo  target=1500  2.8ms',
+      '[INFO] translator  conversione risposta Beckhoff ADS → formato PLC',
+      '[OK] router  risposta instradata verso PLC  ciclo chiuso in 6.4ms',
+      '[INFO] heartbeat  stato sistema: plc=online inverter=running servo=enabled',
+      '[OK] driver.read  DRIVE_FAULT=0  nessun errore rilevato  3.4ms',
+      '[INFO] ruc-core  tutte le variabili sincronizzate con i dispositivi',
+      '[WARN] driver.retry  timeout breve su Modbus RTU  tentativo 2/3',
+      '[OK] driver.write  ritentativo riuscito  scrittura confermata  4.1ms',
+      '[OK] ruc-core  ciclo completato  connessioni=3 errori=0 latenza_media=3.2ms',
+      '[INFO] ruc-core  il PLC vede tutti i dispositivi come un sistema coerente',
     ];
+    const logLinesEn = [
+      '[INFO] ruc-core  starting synchronization cycle #18421  plc=192.168.0.12',
+      '[INFO] ruc-core  reading variables from PLC...',
+      '[OK] driver.read  START_CYCLE=1 read from PLC  2.7ms',
+      '[INFO] router  variable START_CYCLE → looking for target device...',
+      '[OK] router  target found: Modbus RTU Inverter (COM4/node3)',
+      '[INFO] translator  converting PLC format → Modbus RTU',
+      '[OK] driver.write  command written to Modbus RTU inverter  3.6ms',
+      '[OK] driver.read  ACTUAL_RPM=1480 read from Beckhoff Servo  target=1500  2.8ms',
+      '[INFO] translator  converting Beckhoff ADS response → PLC format',
+      '[OK] router  response routed back to PLC  loop closed in 6.4ms',
+      '[INFO] heartbeat  system status: plc=online inverter=running servo=enabled',
+      '[OK] driver.read  DRIVE_FAULT=0  no error detected  3.4ms',
+      '[INFO] ruc-core  all variables synchronized with devices',
+      '[WARN] driver.retry  short timeout on Modbus RTU  attempt 2/3',
+      '[OK] driver.write  retry successful  write confirmed  4.1ms',
+      '[OK] ruc-core  cycle complete  connections=3 errors=0 avg_latency=3.2ms',
+      '[INFO] ruc-core  PLC sees every device as one coherent system',
+    ];
+
+    function getLogLines() {
+      return currentLanguage === 'en' ? logLinesEn : logLinesIt;
+    }
 
     detailProtocolSelect.innerHTML = supportedProtocols
       .map((protocol) => `<option>${protocol}</option>`)
@@ -3071,7 +3788,10 @@
     function selectCard(card) {
       document.querySelectorAll('.device-card').forEach((item) => item.classList.remove('active'));
       card.classList.add('active');
-      detail.querySelector('.detail-copy').innerHTML = `<strong>${card.dataset.device}</strong><br>Protocollo: ${card.dataset.protocol}<br>IP: ${card.dataset.ip}<br>Variabili: ${card.dataset.vars}`;
+      const labels = currentLanguage === 'en'
+        ? { protocol: 'Protocol', variables: 'Variables' }
+        : { protocol: 'Protocollo', variables: 'Variabili' };
+      detail.querySelector('.detail-copy').innerHTML = `<strong>${card.dataset.device}</strong><br>${labels.protocol}: ${card.dataset.protocol}<br>IP: ${card.dataset.ip}<br>${labels.variables}: ${card.dataset.vars}`;
       detailProtocolSelect.value = card.dataset.protocol;
       trackEvent('demo-device-select', 'Demo device selezionato');
     }
@@ -3134,7 +3854,7 @@
         badge.classList.remove('error');
         badge.textContent = 'RUNNING';
         meta.textContent = `${card.dataset.protocol} / ${value}ms`;
-        button.textContent = 'Disconnetti';
+        button.textContent = currentLanguage === 'en' ? 'Disconnect' : 'Disconnetti';
         updateAverageLatency();
         return;
       }
@@ -3142,7 +3862,7 @@
       badge.classList.add('error');
       badge.textContent = 'ERROR';
       meta.textContent = `${card.dataset.protocol} / —`;
-      button.textContent = 'Riconnetti';
+      button.textContent = currentLanguage === 'en' ? 'Reconnect' : 'Riconnetti';
       updateAverageLatency();
       trackEvent('demo-device-disconnect', 'Demo device disconnesso');
     }
@@ -3175,7 +3895,9 @@
       if (nextCard && nextCard.classList.contains('device-card')) {
         selectCard(nextCard);
       } else {
-        detail.querySelector('.detail-copy').innerHTML = '<strong>Nessun dispositivo selezionato</strong><br>Aggiungi un dispositivo dalla configurazione.';
+        detail.querySelector('.detail-copy').innerHTML = currentLanguage === 'en'
+          ? '<strong>No device selected</strong><br>Add a device from the configuration tab.'
+          : '<strong>Nessun dispositivo selezionato</strong><br>Aggiungi un dispositivo dalla configurazione.';
       }
       updateAverageLatency();
     }
@@ -3220,7 +3942,7 @@
       card.innerHTML = `
         <div class="device-head"><span class="device-name">${name}</span><span class="running-badge">RUNNING</span></div>
         <div class="latency-chart">${chartBars()}</div>
-        <div class="device-bottom"><div class="device-meta">${protocol} / ${value}ms</div><button type="button" class="disconnect-btn">Disconnetti</button></div>
+        <div class="device-bottom"><div class="device-meta">${protocol} / ${value}ms</div><button type="button" class="disconnect-btn">${currentLanguage === 'en' ? 'Disconnect' : 'Disconnetti'}</button></div>
       `;
       deviceGrid.appendChild(card);
       bindDeviceCard(card);
@@ -3294,7 +4016,8 @@
 
     function scheduleLogLine() {
       logTimer = window.setTimeout(() => {
-        appendLogLine(logLines[logIndex % logLines.length]);
+        const lines = getLogLines();
+        appendLogLine(lines[logIndex % lines.length]);
         logIndex += 1;
         scheduleLogLine();
       }, 1500 + Math.random() * 500);
@@ -3303,7 +4026,8 @@
     function startLog() {
       if (logTimer) return;
       if (!logTerminal.children.length) {
-        appendLogLine(logLines[logIndex % logLines.length]);
+        const lines = getLogLines();
+        appendLogLine(lines[logIndex % lines.length]);
         logIndex += 1;
       }
       scheduleLogLine();
@@ -3354,7 +4078,9 @@
 
     flowPauseBtn.addEventListener('click', () => {
       const paused = flowCanvas.classList.toggle('paused');
-      flowPauseBtn.textContent = paused ? 'Riprendi' : 'Pausa';
+      flowPauseBtn.textContent = paused
+        ? (currentLanguage === 'en' ? 'Resume' : 'Riprendi')
+        : (currentLanguage === 'en' ? 'Pause' : 'Pausa');
     });
 
     document.getElementById('saveConfigBtn').addEventListener('click', () => {
@@ -3403,7 +4129,198 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', initInteractiveDemo);
+  // SURVEY
+  function toggleOther(fieldId, show) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.style.display = show ? 'block' : 'none';
+      if (!show) field.value = '';
+    }
+  }
+
+  let surveyCurrentStep = 0;
+
+  function getSurveyQuestions() {
+    return [...document.querySelectorAll('#surveyForm .survey-q')];
+  }
+
+  function showSurveyStep(index) {
+    const questions = getSurveyQuestions();
+    const submitRow = document.querySelector('#surveyForm .survey-submit-row');
+    surveyCurrentStep = Math.max(0, Math.min(index, questions.length - 1));
+
+    questions.forEach((question, questionIndex) => {
+      const active = questionIndex === surveyCurrentStep;
+      question.classList.toggle('active', active);
+      question.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+
+    if (submitRow) {
+      submitRow.classList.toggle('visible', surveyCurrentStep === questions.length - 1);
+    }
+  }
+
+  function questionHasAnswer(question) {
+    const checks = [...question.querySelectorAll('input[type="checkbox"]')];
+    const radios = [...question.querySelectorAll('input[type="radio"]')];
+    const textFields = [...question.querySelectorAll('textarea, input[type="text"]')];
+
+    if (checks.length) return checks.some((field) => field.checked);
+    if (radios.length) return radios.some((field) => field.checked);
+    if (question.querySelector('textarea')) return true;
+    return textFields.some((field) => field.value.trim());
+  }
+
+  function updateSurveyStepState(question) {
+    const nextBtn = question.querySelector('[data-survey-next]');
+    if (nextBtn) {
+      nextBtn.disabled = !questionHasAnswer(question);
+    }
+  }
+
+  function bindSurveyStepState(question) {
+    const fields = [...question.querySelectorAll('input, textarea, select')];
+    fields.forEach((field) => {
+      field.addEventListener('change', () => updateSurveyStepState(question));
+      field.addEventListener('input', () => updateSurveyStepState(question));
+    });
+    updateSurveyStepState(question);
+  }
+
+  function trackSurveyQuestionAnswered(questionIndex) {
+    const questionNumber = questionIndex + 1;
+    trackEvent(
+      `survey-question-${questionNumber}-answered`,
+      `Utenti che hanno risposto a domanda ${questionNumber}`
+    );
+  }
+
+  function completeSurveyStep(questionIndex) {
+    const questions = getSurveyQuestions();
+    const question = questions[questionIndex];
+    if (!question || !questionHasAnswer(question)) {
+      alert(languageMeta[currentLanguage].requiredAlert);
+      return;
+    }
+
+    if (question.dataset.answerTracked !== 'true') {
+      question.dataset.answerTracked = 'true';
+      trackSurveyQuestionAnswered(questionIndex);
+    }
+
+    if (questionIndex < questions.length - 1) {
+      showSurveyStep(questionIndex + 1);
+    }
+  }
+
+  function initSurveySteps() {
+    const form = document.getElementById('surveyForm');
+    if (!form) return;
+
+    form.classList.add('survey-ready');
+    const questions = getSurveyQuestions();
+    questions.forEach((question, index) => {
+      question.dataset.questionIndex = String(index);
+
+      const actions = document.createElement('div');
+      actions.className = 'survey-step-actions';
+
+      if (index > 0) {
+        const backBtn = document.createElement('button');
+        backBtn.type = 'button';
+        backBtn.className = 'btn-secondary';
+        backBtn.textContent = languageMeta[currentLanguage].back;
+        backBtn.addEventListener('click', () => showSurveyStep(index - 1));
+        actions.appendChild(backBtn);
+      }
+
+      if (index < questions.length - 1) {
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'btn-primary';
+        nextBtn.dataset.surveyNext = 'true';
+        nextBtn.textContent = languageMeta[currentLanguage].next;
+        nextBtn.addEventListener('click', () => completeSurveyStep(index));
+        actions.appendChild(nextBtn);
+      }
+
+      question.appendChild(actions);
+      bindSurveyStepState(question);
+    });
+
+    showSurveyStep(0);
+  }
+
+  async function handleSurveySubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('surveyForm');
+    const btn = form.querySelector('button[type="submit"]');
+    completeSurveyStep(surveyCurrentStep);
+    if (surveyCurrentStep !== getSurveyQuestions().length - 1) return;
+
+    btn.disabled = true;
+    btn.textContent = languageMeta[currentLanguage].submitSending;
+
+    try {
+      const data = new FormData(form);
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('surveyThanks').style.display = 'block';
+        trackEvent('survey-submitted', 'Questionario inviato');
+      } else {
+        btn.disabled = false;
+        btn.textContent = languageMeta[currentLanguage].submitDefault;
+        alert(languageMeta[currentLanguage].surveyError);
+      }
+    } catch (_) {
+      btn.disabled = false;
+      btn.textContent = languageMeta[currentLanguage].submitDefault;
+      alert(languageMeta[currentLanguage].networkError);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      initInteractiveDemo();
+    } catch (error) {
+      console.error('Errore inizializzazione demo R.U.C.', error);
+    }
+
+    try {
+      initSurveySteps();
+    } catch (error) {
+      console.error('Errore inizializzazione questionario R.U.C.', error);
+    }
+
+    try {
+      initLanguageSwitcher();
+    } catch (error) {
+      console.error('Errore inizializzazione lingua R.U.C.', error);
+    }
+
+    // Observe survey section for analytics
+    const surveySection = document.getElementById('survey');
+    if ('IntersectionObserver' in window && surveySection) {
+      let seen = false;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !seen) {
+            seen = true;
+            trackEvent('survey-section-viewport', 'Sezione questionario nel viewport');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      obs.observe(surveySection);
+    }
+  });
+
+
 
   const GC_EVENT_STORAGE_KEY = 'ruc-goatcounter-events-v1';
   window._gcQueue = [];
