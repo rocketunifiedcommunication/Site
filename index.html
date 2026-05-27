@@ -977,7 +977,76 @@
       margin-top: 0.25rem;
     }
     .form-submit:hover { opacity: 0.88; }
-    .form-note { font-size: 12px; color: var(--text-3); margin-top: 1rem; text-align: center; }
+    .form-note { font-size: 12px; color: var(--text-3); margin-top: 1rem; text-align: center; line-height: 1.65; }
+    .privacy-link {
+      appearance: none;
+      border: 0;
+      background: none;
+      color: var(--text-3);
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      padding: 0;
+    }
+    .privacy-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(8, 15, 28, 0.58);
+      z-index: 1000;
+    }
+    .privacy-modal.open { display: flex; }
+    .privacy-dialog {
+      width: min(720px, 100%);
+      max-height: min(82vh, 760px);
+      overflow: auto;
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      padding: 1.5rem;
+    }
+    .privacy-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .privacy-head h2 {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+    .privacy-close {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 0.45rem 0.65rem;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.85rem;
+    }
+    .privacy-dialog h3 {
+      font-size: 0.95rem;
+      margin: 1.1rem 0 0.35rem;
+    }
+    .privacy-dialog p,
+    .privacy-dialog li {
+      color: var(--text-2);
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+    .privacy-dialog ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+    }
     .thanks {
       display: none;
       padding: 2.5rem 1rem;
@@ -2750,7 +2819,7 @@
       <textarea id="frequests" name="richieste" placeholder="Segnala esigenze specifiche o aspetti che vuoi approfondire"></textarea>
     </div>
     <button type="submit" class="form-submit">Invia</button>
-    <p class="form-note">Nessuna vendita, nessuno spam. Solo un confronto reale.</p>
+    <p class="form-note">Nessuna vendita, nessuno spam. I dati resteranno riservati e saranno usati solo per gestire la richiesta.<br><button type="button" class="privacy-link" onclick="openPrivacy()">Informativa privacy</button></p>
   </form>
 
   <div class="thanks" id="thanks">
@@ -2766,6 +2835,44 @@
   <p>R.U.C. — Rocket Unified Communication  </p>
   <p>Technical preview</p>
 </footer>
+
+<div class="privacy-modal" id="privacyModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="privacy-dialog">
+    <div class="privacy-head">
+      <h2 id="privacyTitle">Informativa privacy</h2>
+      <button type="button" class="privacy-close" onclick="closePrivacy()">Chiudi</button>
+    </div>
+
+    <p>Questa informativa descrive il trattamento dei dati personali raccolti tramite il form di contatto presente sul sito R.U.C.</p>
+
+    <h3>Titolare del trattamento</h3>
+    <p>Il trattamento dei dati è gestito dagli studenti ITS PRIME responsabili del progetto R.U.C., realizzato nell'ambito del modulo di Processi produttivi e sostenibilità ambientale ed economica. Per richieste relative ai dati personali è possibile scrivere a <a href="mailto:marcopistolesi@studenti.itsprime.it">marcopistolesi@studenti.itsprime.it</a>.</p>
+
+    <h3>Dati raccolti</h3>
+    <p>Attraverso il form possono essere raccolti nome, indirizzo email, ruolo professionale, azienda se indicata ed eventuali informazioni inserite nel campo note aggiuntive.</p>
+
+    <h3>Finalità del trattamento</h3>
+    <p>I dati sono raccolti esclusivamente per gestire la richiesta inviata tramite il form, analizzare l'interesse verso il concept R.U.C. e svolgere attività didattiche e di valutazione del progetto. I dati non saranno usati per attività di vendita, spam o comunicazioni commerciali non richieste.</p>
+
+    <h3>Base giuridica</h3>
+    <p>Il trattamento si basa sul consenso dell'utente, espresso tramite l'invio volontario del form.</p>
+
+    <h3>Servizi utilizzati</h3>
+    <p>L'invio del form è gestito tramite Formspree, servizio esterno utilizzato per ricevere le richieste. Il sito utilizza GoatCounter per raccogliere statistiche aggregate sull'utilizzo delle pagine e delle interazioni, senza finalità di profilazione commerciale.</p>
+
+    <h3>Conservazione dei dati</h3>
+    <p>I dati saranno conservati solo per il tempo necessario allo svolgimento dell'attività didattica e di analisi del progetto, e comunque non oltre 6 mesi dalla raccolta.</p>
+
+    <h3>Comunicazione e diffusione dei dati</h3>
+    <p>I dati non saranno venduti, diffusi pubblicamente o ceduti a terzi per finalità commerciali. Potranno essere accessibili solo ai soggetti coinvolti nel progetto e ai servizi tecnici necessari al funzionamento del form e delle statistiche.</p>
+
+    <h3>Diritti dell'utente</h3>
+    <p>L'utente può chiedere in qualsiasi momento accesso ai propri dati, rettifica, cancellazione, limitazione del trattamento o revoca del consenso scrivendo a <a href="mailto:marcopistolesi@studenti.itsprime.it">marcopistolesi@studenti.itsprime.it</a>.</p>
+
+    <h3>Natura del progetto</h3>
+    <p>R.U.C. è un pretotipo realizzato per finalità didattiche e di analisi dell'interesse verso un concept. R.U.C. non è un prodotto realmente in sviluppo.</p>
+  </div>
+</div>
 
 <script>
   const revealTargets = document.querySelectorAll('section, .problem-card, .flow-item, .vs-card, .usecase, .ruc-demo, .cta-wrap');
@@ -2803,6 +2910,31 @@
     document.getElementById('ctaBtn').style.display = 'none';
     document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  function openPrivacy() {
+    const modal = document.getElementById('privacyModal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    trackEvent('privacy-open', 'Informativa privacy aperta');
+  }
+
+  function closePrivacy() {
+    const modal = document.getElementById('privacyModal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.getElementById('privacyModal').addEventListener('click', (event) => {
+    if (event.target.id === 'privacyModal') {
+      closePrivacy();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closePrivacy();
+    }
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
